@@ -11,10 +11,10 @@
             theme: {
                 extend: {
                     colors: {
-                        siteBg: '#18181b',       /* Hafif açık, gözü yormayan mat siyah */
-                        cardBg: '#27272a',       /* Kart ve kutu zeminleri */
-                        cardBorder: '#3f3f46',   /* İnce modern sınırlar */
-                        cyalOrange: '#f97316',   /* Okulun canlı turuncusu */
+                        siteBg: '#18181b',       /* Hafif açık mat siyah */
+                        cardBg: '#27272a',       /* Kutu zeminleri */
+                        cardBorder: '#3f3f46',   /* Kenarlıklar */
+                        cyalOrange: '#f97316',   /* Okul turuncusu */
                         cyalOrangeHover: '#ea580c',
                         textPrimary: '#f4f4f5',
                         textMuted: '#a1a1aa'
@@ -38,7 +38,7 @@
 
     <!-- ÜST BAŞLIK / HEADER -->
     <header class="w-full bg-cardBg border-b border-cardBorder py-3 px-4 sm:px-8 flex items-center justify-between sticky top-0 z-40 shadow-md">
-        <div class="flex items-center gap-3 cursor-pointer" onclick="goHome()">
+        <div class="flex items-center gap-3 cursor-pointer" onclick="goLoginView()">
             <div class="w-10 h-10 bg-cyalOrange rounded-xl flex items-center justify-center font-black text-black text-xl">
                 CY
             </div>
@@ -65,7 +65,7 @@
                     <i class="fa-solid fa-graduation-cap"></i>
                 </div>
                 <h2 class="text-xl font-bold text-white">Platforma Giriş</h2>
-                <p class="text-xs text-textMuted mt-1">Bilgilerin bir kez kaydedilir, tekrar girmene gerek kalmaz.</p>
+                <p class="text-xs text-textMuted mt-1">Sınıfınızı ve isminizi seçip giriş yapın.</p>
             </div>
 
             <form onsubmit="saveUserAndContinue(event)" class="space-y-4">
@@ -103,8 +103,9 @@
                     <span id="user-badge" class="text-[11px] uppercase tracking-wider font-extrabold text-cyalOrange bg-cyalOrange/10 border border-cyalOrange/20 px-3 py-1 rounded-lg">8. Sınıf</span>
                     <h2 id="welcome-title" class="text-lg font-bold text-white mt-2">Çalışmak İstediğin Konuyu Seç</h2>
                 </div>
-                <button onclick="goHome()" class="text-xs text-textMuted hover:text-white bg-siteBg border border-cardBorder px-3.5 py-2 rounded-xl transition self-start sm:self-auto">
-                    <i class="fa-solid fa-rotate mr-1"></i> Sınıf Değiştir
+                <button onclick="goLoginView()" class="text-xs text-textMuted hover:text-white bg-siteBg border border-cardBorder px-3.5 py-2 rounded-xl transition self-start sm:self-auto flex items-center gap-1.5">
+                    <i class="fa-solid fa-rotate"></i>
+                    <span>Sınıf Değiştir</span>
                 </button>
             </div>
 
@@ -114,7 +115,7 @@
             </div>
         </section>
 
-        <!-- EKRAN 3: SORU ÇÖZÜM ALANI (Akıllı Tahta & Mobil Uyumlu) -->
+        <!-- EKRAN 3: SORU ÇÖZÜM ALANI -->
         <section id="view-game" class="hidden max-w-2xl mx-auto w-full bg-cardBg border border-cardBorder rounded-2xl p-5 sm:p-8 shadow-xl">
             <!-- Soru Üst Bilgisi -->
             <div class="flex items-center justify-between border-b border-cardBorder pb-4 mb-6">
@@ -127,7 +128,7 @@
                     <span id="game-score" class="font-black text-white text-xl font-mono">0</span>
                 </div>
                 <div>
-                    <button onclick="exitGame()" class="text-xs text-textMuted hover:text-white bg-siteBg border border-cardBorder px-3 py-1.5 rounded-lg transition">
+                    <button onclick="goTopicsView()" class="text-xs text-textMuted hover:text-white bg-siteBg border border-cardBorder px-3 py-1.5 rounded-lg transition">
                         Konulara Dön
                     </button>
                 </div>
@@ -193,88 +194,22 @@
 
     <!-- JAVASCRIPT KODLARI -->
     <script>
-        // --- MEB 1-8. SINIF BÜTÜN MATEMATİK MÜFREDAT KONULARI ---
         const MEB_CURRICULUM = {
-            "1": [
-                "Doğal Sayılar (0-20 Sayma ve Okuma)",
-                "Toplama İşlemi (10 ve 20 İçi Toplama)",
-                "Çıkarma İşlemi (Eksilen ve Kalan)",
-                "Geometrik Şekiller ve Nesneler",
-                "Zamanı Ölçme (Tam ve Yarım Saatler)",
-                "Paralarımız (Kuruş ve Lira Kavramı)"
-            ],
-            "2": [
-                "Doğal Sayılar (100'e Kadar Okuma/Yazma)",
-                "Eldeli Toplama ve Onluk Bozarak Çıkarma",
-                "Çarpma İşlemine Giriş ve Çarpım Tablosu",
-                "Bölme İşlemi Kavramı ve Gruplama",
-                "Kesirler (Bütün, Yarım, Çeyrek)",
-                "Veri Toplama ve Çetele Tablosu"
-            ],
-            "3": [
-                "Üç Basamaklı Doğal Sayılar ve Basamak Değeri",
-                "Çarpma İşlemi (2 ve 3 Basamaklı Sayılar)",
-                "Kalanlı ve Kalansız Bölme İşlemi",
-                "Lira ve Kuruş İlişkisi / Problem Çözümü",
-                "Zamanı Ölçme (Dakika, Saat, Gün)",
-                "Geometride Açı ve Çevre Ölçme"
-            ],
-            "4": [
-                "4, 5 ve 6 Basamaklı Doğal Sayılar",
-                "Dört İşlem Problemleri ve Tahmin Etme",
-                "Kesir Türleri (Basit, Bileşik, Tam Sayılı)",
-                "Kesirlerle Toplama ve Çıkarma",
-                "Ondalık Gösterim ve Yüzdeler",
-                "Açılar, Alan ve Çevre Ölçümleri"
-            ],
-            "5": [
-                "Doğal Sayılar ve Çok Basamaklı İşlemler",
-                "Kesirlerle İşlemler ve Sadeleştirme",
-                "Ondalık Gösterim ve Basamak Değerleri",
-                "Yüzdeler ve Yüzde Hesapları",
-                "Temel Geometrik Kavramlar ve Çizimler",
-                "Veri Toplama, Düzenleme ve Sütun Grafiği"
-            ],
-            "6": [
-                "Çarpanlar ve Katlar / Bölünebilme Kuralları",
-                "Açılar (Komşu, Tümler, Bütünler, Ters)",
-                "Tam Sayılar ve Mutlak Değer",
-                "Kesirlerle Bölme ve Dört İşlem",
-                "Oran ve Orantı Kavramı",
-                "Geometrik Cisimler ve Hacim Ölçme"
-            ],
-            "7": [
-                "Tam Sayılarla Dört İşlem ve Problemler",
-                "Rasyonel Sayılar ve Dört İşlem",
-                "Cebirsel İfadeler ve Eşitlik/Denklem",
-                "Oran - Orantı ve Doğru/Ters Orantı",
-                "Yüzde Problemleri ve Kar-Zarar Hesabı",
-                "Çember, Daire ve Çokgenlerde Alan"
-            ],
-            "8": [
-                "Çarpanlar ve Katlar (EBOB ve EKOK)",
-                "Üslü İfadeler ve Bilimsel Gösterim",
-                "Kareköklü İfadeler ve İşlemler",
-                "Veri Analizi (Çizgi, Sütun, Daire Grafiği)",
-                "Basit Olayların Olma Olasılığı",
-                "Cebirsel İfadeler ve Özdeşlikler",
-                "Doğrusal Denklemler ve Eğim"
-            ]
+            "1": ["Doğal Sayılar (0-20 Sayma ve Okuma)", "Toplama İşlemi (10 ve 20 İçi Toplama)", "Çıkarma İşlemi (Eksilen ve Kalan)", "Geometrik Şekiller ve Nesneler", "Zamanı Ölçme (Tam ve Yarım Saatler)", "Paralarımız (Kuruş ve Lira Kavramı)"],
+            "2": ["Doğal Sayılar (100'e Kadar Okuma/Yazma)", "Eldeli Toplama ve Onluk Bozarak Çıkarma", "Çarpma İşlemine Giriş ve Çarpım Tablosu", "Bölme İşlemi Kavramı ve Gruplama", "Kesirler (Bütün, Yarım, Çeyrek)", "Veri Toplama ve Çetele Tablosu"],
+            "3": ["Üç Basamaklı Doğal Sayılar ve Basamak Değeri", "Çarpma İşlemi (2 ve 3 Basamaklı Sayılar)", "Kalanlı ve Kalansız Bölme İşlemi", "Lira ve Kuruş İlişkisi / Problem Çözümü", "Zamanı Ölçme (Dakika, Saat, Gün)", "Geometride Açı ve Çevre Ölçme"],
+            "4": ["4, 5 ve 6 Basamaklı Doğal Sayılar", "Dört İşlem Problemleri ve Tahmin Etme", "Kesir Türleri (Basit, Bileşik, Tam Sayılı)", "Kesirlerle Toplama ve Çıkarma", "Ondalık Gösterim ve Yüzdeler", "Açılar, Alan ve Çevre Ölçümleri"],
+            "5": ["Doğal Sayılar ve Çok Basamaklı İşlemler", "Kesirlerle İşlemler ve Sadeleştirme", "Ondalık Gösterim ve Basamak Değerleri", "Yüzdeler ve Yüzde Hesapları", "Temel Geometrik Kavramlar ve Çizimler", "Veri Toplama, Düzenleme ve Sütun Grafiği"],
+            "6": ["Çarpanlar ve Katlar / Bölünebilme Kuralları", "Açılar (Komşu, Tümler, Bütünler, Ters)", "Tam Sayılar ve Mutlak Değer", "Kesirlerle Bölme ve Dört İşlem", "Oran ve Orantı Kavramı", "Geometrik Cisimler ve Hacim Ölçme"],
+            "7": ["Tam Sayılarla Dört İşlem ve Problemler", "Rasyonel Sayılar ve Dört İşlem", "Cebirsel İfadeler ve Eşitlik/Denklem", "Oran - Orantı ve Doğru/Ters Orantı", "Yüzde Problemleri ve Kar-Zarar Hesabı", "Çember, Daire ve Çokgenlerde Alan"],
+            "8": ["Çarpanlar ve Katlar (EBOB ve EKOK)", "Üslü İfadeler ve Bilimsel Gösterim", "Kareköklü İfadeler ve İşlemler", "Veri Analizi (Çizgi, Sütun, Daire Grafiği)", "Basit Olayların Olma Olasılığı", "Cebirsel İfadeler ve Özdeşlikler", "Doğrusal Denklemler ve Eğim"]
         };
 
-        // KULLANICI STATE
-        let currentUser = {
-            name: '',
-            levelType: 'middle',
-            grade: '8',
-            soundEnabled: true
-        };
-
+        let currentUser = { name: '', levelType: 'middle', grade: '8', soundEnabled: true };
         let currentActiveQuestion = null;
         let score = 0;
-        let selectedTopic = '';
 
-        // SES EFEKTLERİ (Web Audio API)
+        // SES EFEKTLERİ
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         function playSound(type) {
             if (!currentUser.soundEnabled) return;
@@ -309,20 +244,27 @@
             } catch(e) {}
         }
 
-        // SAYFA İLK AÇILIŞI
+        // TARAYICI GERİ/İLERİ BUTONLARI DESTEĞİ
+        window.addEventListener('popstate', (e) => {
+            if (e.state && e.state.view) {
+                switchView(e.state.view, false);
+            } else {
+                switchView('view-login', false);
+            }
+        });
+
         window.addEventListener('DOMContentLoaded', () => {
             loadUserData();
             updateGradeDropdown();
 
             if (currentUser.name) {
-                showView('view-topics');
+                switchView('view-topics', true);
                 renderTopics();
             } else {
-                showView('view-login');
+                switchView('view-login', true);
             }
         });
 
-        // BİLGİ KAYDI VE ARAMA
         function loadUserData() {
             const saved = localStorage.getItem('cyal_math_user_v2');
             if (saved) {
@@ -345,7 +287,7 @@
             document.getElementById('header-user-name').innerText = currentUser.name;
 
             renderTopics();
-            showView('view-topics');
+            switchView('view-topics', true);
         }
 
         function updateGradeDropdown() {
@@ -363,7 +305,6 @@
             });
         }
 
-        // KONU LİSTELEME
         function renderTopics() {
             const grid = document.getElementById('topics-grid');
             grid.innerHTML = '';
@@ -390,108 +331,49 @@
             });
         }
 
-        // SINIFA ÖZEL ZORLUK SEVİYESİNE GÖRE SORU ÜRETİMİ
         function startTopicGame(topicName) {
             playSound('click');
-            selectedTopic = topicName;
             document.getElementById('game-topic-name').innerText = topicName;
             score = 0;
             document.getElementById('game-score').innerText = score;
-            showView('view-game');
+            switchView('view-game', true);
             generateGradeBasedQuestion();
         }
 
         function generateGradeBasedQuestion() {
             const grade = parseInt(currentUser.grade || '8');
-            let qText = '';
-            let ans = 0;
-            let diffLabel = 'Kolay';
+            let qText = '', ans = 0, diffLabel = 'Kolay';
 
-            // 1 ve 2. Sınıf Zorluk Derecesi
             if (grade <= 2) {
                 diffLabel = 'Temel Seviye';
                 const n1 = Math.floor(Math.random() * (grade === 1 ? 15 : 40)) + 1;
                 const n2 = Math.floor(Math.random() * (grade === 1 ? 10 : 30)) + 1;
-                const isAdd = Math.random() > 0.4;
-                if (isAdd) {
-                    qText = `${n1} + ${n2} = ?`;
-                    ans = n1 + n2;
-                } else {
-                    const max = Math.max(n1, n2);
-                    const min = Math.min(n1, n2);
-                    qText = `${max} - ${min} = ?`;
-                    ans = max - min;
-                }
-            } 
-            // 3 ve 4. Sınıf Zorluk Derecesi
-            else if (grade <= 4) {
+                if (Math.random() > 0.4) { qText = `${n1} + ${n2} = ?`; ans = n1 + n2; } 
+                else { const max = Math.max(n1, n2), min = Math.min(n1, n2); qText = `${max} - ${min} = ?`; ans = max - min; }
+            } else if (grade <= 4) {
                 diffLabel = 'Orta Seviye';
                 const type = Math.floor(Math.random() * 3);
-                if (type === 0) { // Çarpma
-                    const n1 = Math.floor(Math.random() * 9) + 2;
-                    const n2 = Math.floor(Math.random() * 9) + 2;
-                    qText = `${n1} × ${n2} = ?`;
-                    ans = n1 * n2;
-                } else if (type === 1) { // Bölme
-                    const n2 = Math.floor(Math.random() * 8) + 2;
-                    ans = Math.floor(Math.random() * 9) + 2;
-                    const n1 = ans * n2;
-                    qText = `${n1} ÷ ${n2} = ?`;
-                } else { // Toplama/Çıkarma
-                    const n1 = Math.floor(Math.random() * 200) + 50;
-                    const n2 = Math.floor(Math.random() * 150) + 20;
-                    qText = `${n1} + ${n2} = ?`;
-                    ans = n1 + n2;
-                }
-            }
-            // 5 ve 6. Sınıf Zorluk Derecesi
-            else if (grade <= 6) {
+                if (type === 0) { const n1 = Math.floor(Math.random() * 9) + 2, n2 = Math.floor(Math.random() * 9) + 2; qText = `${n1} × ${n2} = ?`; ans = n1 * n2; } 
+                else if (type === 1) { const n2 = Math.floor(Math.random() * 8) + 2; ans = Math.floor(Math.random() * 9) + 2; qText = `${ans * n2} ÷ ${n2} = ?`; } 
+                else { const n1 = Math.floor(Math.random() * 200) + 50, n2 = Math.floor(Math.random() * 150) + 20; qText = `${n1} + ${n2} = ?`; ans = n1 + n2; }
+            } else if (grade <= 6) {
                 diffLabel = 'İleri Seviye';
                 const type = Math.floor(Math.random() * 3);
-                if (type === 0) { // İşlem Önceliği / Üslü
-                    const base = Math.floor(Math.random() * 6) + 2;
-                    qText = `${base}² + ${Math.floor(Math.random() * 20) + 5} = ?`;
-                    ans = (base * base) + (parseInt(qText.split('+')[1]));
-                } else if (type === 1) { // Tam sayılar
-                    const n1 = Math.floor(Math.random() * 15) + 5;
-                    const n2 = Math.floor(Math.random() * 20) + 5;
-                    qText = `${n1} - ${n2} = ?`;
-                    ans = n1 - n2;
-                } else { // Oran / Katlar
-                    const base = Math.floor(Math.random() * 12) + 3;
-                    const mult = Math.floor(Math.random() * 5) + 2;
-                    qText = `${base} sayısının ${mult} katı kaçtır?`;
-                    ans = base * mult;
-                }
-            }
-            // 7 ve 8. Sınıf Zorluk Derecesi (LGS Mantığı)
-            else {
+                if (type === 0) { const base = Math.floor(Math.random() * 6) + 2, add = Math.floor(Math.random() * 20) + 5; qText = `${base}² + ${add} = ?`; ans = (base * base) + add; } 
+                else if (type === 1) { const n1 = Math.floor(Math.random() * 15) + 5, n2 = Math.floor(Math.random() * 20) + 5; qText = `${n1} - ${n2} = ?`; ans = n1 - n2; } 
+                else { const base = Math.floor(Math.random() * 12) + 3, mult = Math.floor(Math.random() * 5) + 2; qText = `${base} sayısının ${mult} katı kaçtır?`; ans = base * mult; }
+            } else {
                 diffLabel = 'LGS / Üst Seviye';
                 const type = Math.floor(Math.random() * 3);
-                if (type === 0) { // Karekök
-                    const perfects = [4, 9, 16, 25, 36, 49, 64, 81, 100, 121, 144];
-                    const val = perfects[Math.floor(Math.random() * perfects.length)];
-                    qText = `√${val} + ${Math.floor(Math.random() * 10) + 1} = ?`;
-                    ans = Math.sqrt(val) + (parseInt(qText.split('+')[1]));
-                } else if (type === 1) { // Üslü İfadeler
-                    const base = Math.floor(Math.random() * 4) + 2;
-                    const exp = Math.floor(Math.random() * 3) + 2;
-                    qText = `${base}<sup>${exp}</sup> - ${Math.floor(Math.random() * 5) + 1} = ?`;
-                    ans = Math.pow(base, exp) - (parseInt(qText.split('-')[1]));
-                } else { // Denklem
-                    const xVal = Math.floor(Math.random() * 10) + 1;
-                    const coeff = Math.floor(Math.random() * 4) + 2;
-                    const result = coeff * xVal;
-                    qText = `${coeff}x = ${result} ise x kaçtır?`;
-                    ans = xVal;
-                }
+                if (type === 0) { const perfects = [4, 9, 16, 25, 36, 49, 64, 81, 100, 121, 144], val = perfects[Math.floor(Math.random() * perfects.length)], add = Math.floor(Math.random() * 10) + 1; qText = `√${val} + ${add} = ?`; ans = Math.sqrt(val) + add; } 
+                else if (type === 1) { const base = Math.floor(Math.random() * 4) + 2, exp = Math.floor(Math.random() * 3) + 2, sub = Math.floor(Math.random() * 5) + 1; qText = `${base}<sup>${exp}</sup> - ${sub} = ?`; ans = Math.pow(base, exp) - sub; } 
+                else { const xVal = Math.floor(Math.random() * 10) + 1, coeff = Math.floor(Math.random() * 4) + 2; qText = `${coeff}x = ${coeff * xVal} ise x kaçtır?`; ans = xVal; }
             }
 
             document.getElementById('difficulty-badge').innerText = `Zorluk Seviyesi: ${diffLabel}`;
             document.getElementById('game-question-text').innerHTML = qText;
             currentActiveQuestion = { ans: ans };
 
-            // Şıkları Oluşturma
             const options = [ans];
             while (options.length < 4) {
                 const fake = ans + (Math.floor(Math.random() * 12) - 6);
@@ -520,27 +402,20 @@
             } else {
                 playSound('wrong');
                 btnEl.classList.add('border-red-500', 'bg-red-500/20');
-                setTimeout(() => {
-                    btnEl.classList.remove('border-red-500', 'bg-red-500/20');
-                }, 400);
+                setTimeout(() => { btnEl.classList.remove('border-red-500', 'bg-red-500/20'); }, 400);
             }
         }
 
-        function exitGame() {
+        function goLoginView() {
             playSound('click');
-            showView('view-topics');
+            switchView('view-login', true);
         }
 
-        function goHome() {
+        function goTopicsView() {
             playSound('click');
-            if (currentUser.name) {
-                showView('view-topics');
-            } else {
-                showView('view-login');
-            }
+            switchView('view-topics', true);
         }
 
-        // AYARLAR MODALI
         function openSettings() {
             playSound('click');
             document.getElementById('settings-name').value = currentUser.name || '';
@@ -579,11 +454,15 @@
             }
         }
 
-        function showView(viewId) {
+        function switchView(viewId, pushState = true) {
             ['view-login', 'view-topics', 'view-game'].forEach(id => {
                 document.getElementById(id).classList.add('hidden');
             });
             document.getElementById(viewId).classList.remove('hidden');
+
+            if (pushState) {
+                history.pushState({ view: viewId }, '', '#' + viewId.replace('view-', ''));
+            }
         }
     </script>
 </body>
