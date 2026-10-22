@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CYAL - Okul Matematik Platformu</title>
-    <!-- Tarayıcı Sekme Logosu (Siyah zemin üstüne turuncu ∑ simgesi) -->
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23121214'/><text x='50%' y='68%' font-size='65' font-weight='bold' fill='%23f97316' text-anchor='middle' font-family='sans-serif'>∑</text></svg>">
+    <!-- Tarayıcı Sekme Logosu -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%2318181b'/><text x='50%' y='68%' font-size='65' font-weight='bold' fill='%23f97316' text-anchor='middle' font-family='sans-serif'>∑</text></svg>">
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -34,24 +34,30 @@
             font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             user-select: none;
         }
+        .hero-glow {
+            box-shadow: 0 0 40px -10px rgba(249, 115, 22, 0.15);
+        }
     </style>
 </head>
 <body class="min-h-screen flex flex-col justify-between">
 
     <!-- ÜST BAŞLIK / HEADER -->
-    <header class="w-full bg-cardBg border-b border-cardBorder py-3 px-4 sm:px-8 flex items-center justify-between sticky top-0 z-40 shadow-md">
-        <div class="flex items-center gap-3 cursor-pointer" onclick="goLoginView()">
-            <div class="w-10 h-10 bg-cyalOrange rounded-xl flex items-center justify-center font-black text-black text-xl">
-                CY
+    <header class="w-full bg-cardBg/90 backdrop-blur border-b border-cardBorder py-3.5 px-4 sm:px-8 flex items-center justify-between sticky top-0 z-40 shadow-lg">
+        <div class="flex items-center gap-3.5 cursor-pointer group" onclick="goLoginView()">
+            <!-- Yenilenmiş Şık Siyah-Turuncu Logo -->
+            <div class="w-11 h-11 bg-black border border-cyalOrange/50 rounded-xl flex items-center justify-center font-black text-cyalOrange text-xl shadow-inner group-hover:border-cyalOrange transition">
+                ∑
             </div>
             <div>
-                <h1 class="font-extrabold text-base sm:text-lg leading-tight tracking-wide">CYAL MATEMATİK</h1>
-                <p class="text-[11px] text-textMuted">İlkokul & Ortaokul Eğitim Arenası</p>
+                <h1 class="font-black text-base sm:text-lg leading-tight tracking-wide text-white flex items-center gap-2">
+                    CYAL <span class="text-xs font-normal text-cyalOrange bg-cyalOrange/10 px-2 py-0.5 rounded border border-cyalOrange/20">MATEMATİK</span>
+                </h1>
+                <p class="text-[11px] text-textMuted tracking-wider">İlkokul & Ortaokul Eğitim Arenası</p>
             </div>
         </div>
 
-        <!-- Profil / Ayarlar -->
-        <button onclick="openSettings()" class="bg-siteBg border border-cardBorder hover:border-cyalOrange text-textPrimary px-3 py-2 rounded-xl flex items-center gap-2 text-xs font-semibold transition">
+        <!-- Profil / Ayarlar Butonu -->
+        <button onclick="openSettings()" class="bg-siteBg border border-cardBorder hover:border-cyalOrange text-textPrimary px-3.5 py-2 rounded-xl flex items-center gap-2.5 text-xs font-semibold transition shadow-sm">
             <i class="fa-solid fa-user-gear text-cyalOrange text-sm"></i>
             <span id="header-user-name" class="hidden sm:inline">Giriş Yapılmadı</span>
         </button>
@@ -60,39 +66,49 @@
     <!-- ANA İÇERİK ALANI -->
     <main class="flex-1 max-w-4xl w-full mx-auto p-4 sm:p-6 flex flex-col justify-center">
 
-        <!-- EKRAN 1: BİLGİ KAYIT / HOŞ GELDİNİZ -->
-        <section id="view-login" class="bg-cardBg border border-cardBorder rounded-2xl p-6 sm:p-10 max-w-md mx-auto w-full shadow-2xl">
-            <div class="text-center mb-6">
-                <div class="w-14 h-14 bg-cyalOrange/10 border border-cyalOrange/30 text-cyalOrange rounded-2xl flex items-center justify-center mx-auto mb-3 text-2xl">
-                    <i class="fa-solid fa-graduation-cap"></i>
+        <!-- EKRAN 1: YENİLENMİŞ ŞIK GİRİŞ EKRANI -->
+        <section id="view-login" class="bg-cardBg border border-cardBorder rounded-3xl p-6 sm:p-10 max-w-lg mx-auto w-full hero-glow relative overflow-hidden">
+            <!-- Arka plan dekoratif detay -->
+            <div class="absolute -right-10 -top-10 w-40 h-40 bg-cyalOrange/5 rounded-full blur-2xl pointer-events-none"></div>
+
+            <div class="text-center mb-8 relative z-10">
+                <div class="w-16 h-16 bg-black border border-cyalOrange/30 text-cyalOrange rounded-2xl flex items-center justify-center mx-auto mb-4 text-3xl shadow-lg">
+                    <i class="fa-solid fa-compass-drafting"></i>
                 </div>
-                <h2 class="text-xl font-bold text-white">Platforma Giriş</h2>
-                <p class="text-xs text-textMuted mt-1">Sınıfınızı ve isminizi seçip giriş yapın.</p>
+                <h2 class="text-2xl font-black text-white tracking-tight">Matematik Arenasına Hoş Geldin</h2>
+                <p class="text-xs text-textMuted mt-1.5 max-w-xs mx-auto">Bilgilerini bir kez gir, sistem seni hatarlasın. İstediğin zaman sınıfını kolayca değiştir!</p>
             </div>
 
-            <form onsubmit="saveUserAndContinue(event)" class="space-y-4">
+            <form onsubmit="saveUserAndContinue(event)" class="space-y-4.5 relative z-10">
                 <div>
-                    <label class="block text-xs font-semibold text-textMuted mb-1">Ad Soyad veya Sınıf/Takım Adı</label>
-                    <input type="text" id="input-name" required placeholder="Örn: Mehmet Ali veya 6-B Takımı" class="w-full bg-siteBg border border-cardBorder rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-cyalOrange transition">
+                    <label class="block text-xs font-bold text-textMuted uppercase tracking-wider mb-1.5">Ad Soyad veya Sınıf / Takım Adı</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-textMuted">
+                            <i class="fa-solid fa-user text-xs"></i>
+                        </span>
+                        <input type="text" id="input-name" required placeholder="Örn: Zeynep Demir veya 7-A Takımı" class="w-full bg-siteBg border border-cardBorder rounded-xl pl-10 pr-4 py-3 text-sm text-white focus:outline-none focus:border-cyalOrange transition shadow-inner">
+                    </div>
                 </div>
 
-                <div>
-                    <label class="block text-xs font-semibold text-textMuted mb-1">Okul Kademeniz</label>
-                    <select id="input-level-type" onchange="updateGradeDropdown()" class="w-full bg-siteBg border border-cardBorder rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-cyalOrange transition">
-                        <option value="primary">İlkokul (1, 2, 3, 4. Sınıflar)</option>
-                        <option value="middle" selected>Ortaokul (5, 6, 7, 8. Sınıflar)</option>
-                    </select>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-bold text-textMuted uppercase tracking-wider mb-1.5">Eğitim Kademesi</label>
+                        <select id="input-level-type" onchange="updateGradeDropdown()" class="w-full bg-siteBg border border-cardBorder rounded-xl px-3.5 py-3 text-sm text-white focus:outline-none focus:border-cyalOrange transition">
+                            <option value="primary">İlkokul (1-4)</option>
+                            <option value="middle" selected>Ortaokul (5-8)</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-textMuted uppercase tracking-wider mb-1.5">Sınıf Seçimi</label>
+                        <select id="input-grade" class="w-full bg-siteBg border border-cardBorder rounded-xl px-3.5 py-3 text-sm text-white focus:outline-none focus:border-cyalOrange transition">
+                            <!-- JS ile doldurulacak -->
+                        </select>
+                    </div>
                 </div>
 
-                <div>
-                    <label class="block text-xs font-semibold text-textMuted mb-1">Sınıfınız</label>
-                    <select id="input-grade" class="w-full bg-siteBg border border-cardBorder rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-cyalOrange transition">
-                        <!-- JS ile Doldurulacak -->
-                    </select>
-                </div>
-
-                <button type="submit" class="w-full bg-cyalOrange hover:bg-cyalOrangeHover text-black font-bold py-3.5 px-4 rounded-xl transition flex items-center justify-center gap-2 mt-2 shadow-lg shadow-orange-500/10">
-                    <span>Giriş Yap ve Konuları Gör</span>
+                <button type="submit" class="w-full bg-cyalOrange hover:bg-cyalOrangeHover text-black font-extrabold py-3.5 px-4 rounded-xl transition flex items-center justify-center gap-2.5 mt-4 shadow-lg shadow-orange-500/20 text-sm">
+                    <span>Hemen Başla</span>
                     <i class="fa-solid fa-arrow-right text-xs"></i>
                 </button>
             </form>
@@ -100,14 +116,14 @@
 
         <!-- EKRAN 2: MEB KONU BAŞLIKLARI SEÇİMİ -->
         <section id="view-topics" class="hidden space-y-6">
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-cardBg border border-cardBorder p-5 rounded-2xl">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-cardBg border border-cardBorder p-5 rounded-2xl shadow-sm">
                 <div>
                     <span id="user-badge" class="text-[11px] uppercase tracking-wider font-extrabold text-cyalOrange bg-cyalOrange/10 border border-cyalOrange/20 px-3 py-1 rounded-lg">8. Sınıf</span>
                     <h2 id="welcome-title" class="text-lg font-bold text-white mt-2">Çalışmak İstediğin Konuyu Seç</h2>
                 </div>
-                <button onclick="goLoginView()" class="text-xs text-textMuted hover:text-white bg-siteBg border border-cardBorder px-3.5 py-2 rounded-xl transition self-start sm:self-auto flex items-center gap-1.5">
-                    <i class="fa-solid fa-rotate"></i>
-                    <span>Sınıf Değiştir</span>
+                <button onclick="goLoginView()" class="text-xs text-textMuted hover:text-white bg-siteBg border border-cardBorder px-3.5 py-2.5 rounded-xl transition self-start sm:self-auto flex items-center gap-2 font-medium">
+                    <i class="fa-solid fa-rotate text-cyalOrange"></i>
+                    <span>Sınıf / Bilgi Değiştir</span>
                 </button>
             </div>
 
@@ -122,15 +138,15 @@
             <!-- Soru Üst Bilgisi -->
             <div class="flex items-center justify-between border-b border-cardBorder pb-4 mb-6">
                 <div>
-                    <span class="text-[10px] text-textMuted block uppercase tracking-wider">SEÇİLİ KONU</span>
+                    <span class="text-[10px] text-textMuted block uppercase tracking-wider font-semibold">SEÇİLİ KONU</span>
                     <span id="game-topic-name" class="font-bold text-white text-xs sm:text-sm truncate max-w-[160px] sm:max-w-xs block text-cyalOrange">-</span>
                 </div>
                 <div class="text-center">
-                    <span class="text-[10px] text-textMuted block uppercase tracking-wider">SKOR</span>
+                    <span class="text-[10px] text-textMuted block uppercase tracking-wider font-semibold">SKOR</span>
                     <span id="game-score" class="font-black text-white text-xl font-mono">0</span>
                 </div>
                 <div>
-                    <button onclick="goTopicsView()" class="text-xs text-textMuted hover:text-white bg-siteBg border border-cardBorder px-3 py-1.5 rounded-lg transition">
+                    <button onclick="goTopicsView()" class="text-xs text-textMuted hover:text-white bg-siteBg border border-cardBorder px-3 py-2 rounded-xl transition font-medium">
                         Konulara Dön
                     </button>
                 </div>
@@ -138,7 +154,7 @@
 
             <!-- Soru Alanı -->
             <div class="text-center py-6 sm:py-8">
-                <span id="difficulty-badge" class="text-[10px] font-bold text-textMuted uppercase bg-siteBg px-2.5 py-1 rounded-full border border-cardBorder mb-4 inline-block">Zorluk Seviyesi: Normal</span>
+                <span id="difficulty-badge" class="text-[10px] font-bold text-textMuted uppercase bg-siteBg px-3 py-1.5 rounded-full border border-cardBorder mb-4 inline-block">Zorluk Seviyesi: Normal</span>
                 <p id="game-question-text" class="text-2xl sm:text-4xl font-extrabold text-white leading-relaxed font-mono">
                     Soru Hazırlanıyor...
                 </p>
@@ -154,9 +170,9 @@
 
     <!-- AYARLAR & PROFİL MODALI -->
     <div id="modal-settings" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
-        <div class="bg-cardBg border border-cardBorder rounded-2xl p-6 max-w-md w-full relative shadow-2xl">
-            <button onclick="closeSettings()" class="absolute top-4 right-4 text-textMuted hover:text-white">
-                <i class="fa-solid fa-xmark text-lg"></i>
+        <div class="bg-cardBg border border-cardBorder rounded-3xl p-6 max-w-md w-full relative shadow-2xl">
+            <button onclick="closeSettings()" class="absolute top-5 right-5 text-textMuted hover:text-white w-8 h-8 rounded-full bg-siteBg flex items-center justify-center transition">
+                <i class="fa-solid fa-xmark text-sm"></i>
             </button>
 
             <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
@@ -165,24 +181,24 @@
 
             <div class="space-y-4">
                 <div>
-                    <label class="block text-xs font-semibold text-textMuted mb-1">İsim / Takım Adı Güncelle</label>
-                    <input type="text" id="settings-name" class="w-full bg-siteBg border border-cardBorder rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-cyalOrange">
+                    <label class="block text-xs font-semibold text-textMuted mb-1.5">İsim / Takım Adı Güncelle</label>
+                    <input type="text" id="settings-name" class="w-full bg-siteBg border border-cardBorder rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-cyalOrange">
                 </div>
 
                 <div>
-                    <label class="block text-xs font-semibold text-textMuted mb-1">Arayüz Sesleri</label>
-                    <button id="btn-toggle-sound" onclick="toggleSoundSetting()" class="w-full bg-siteBg border border-cardBorder py-2.5 px-4 rounded-xl text-xs font-bold flex items-center justify-between text-white">
+                    <label class="block text-xs font-semibold text-textMuted mb-1.5">Arayüz Sesleri</label>
+                    <button id="btn-toggle-sound" onclick="toggleSoundSetting()" class="w-full bg-siteBg border border-cardBorder py-3 px-4 rounded-xl text-xs font-bold flex items-center justify-between text-white hover:border-cardBorder transition">
                         <span>Tıklama ve Bildirim Sesleri</span>
                         <span id="sound-status-text" class="text-cyalOrange">Açık</span>
                     </button>
                 </div>
 
                 <div class="pt-3 border-t border-cardBorder flex gap-2">
-                    <button onclick="saveSettings()" class="flex-1 bg-cyalOrange hover:bg-cyalOrangeHover text-black font-bold py-2.5 rounded-xl text-xs transition">
-                        Kaydet
+                    <button onclick="saveSettings()" class="flex-1 bg-cyalOrange hover:bg-cyalOrangeHover text-black font-extrabold py-3 rounded-xl text-xs transition shadow-md">
+                        Değişiklikleri Kaydet
                     </button>
-                    <button onclick="resetUserData()" class="bg-siteBg border border-cardBorder text-textMuted hover:text-white px-4 py-2.5 rounded-xl text-xs transition">
-                        Hesabı Sıfırla
+                    <button onclick="resetUserData()" class="bg-siteBg border border-cardBorder text-textMuted hover:text-red-400 px-4 py-3 rounded-xl text-xs transition font-semibold" title="Sıfırla">
+                        <i class="fa-solid fa-trash-can"></i>
                     </button>
                 </div>
             </div>
@@ -190,7 +206,7 @@
     </div>
 
     <!-- FOOTER -->
-    <footer class="w-full border-t border-cardBorder py-3 px-4 text-center text-[11px] text-textMuted bg-cardBg/50">
+    <footer class="w-full border-t border-cardBorder py-3.5 px-4 text-center text-[11px] text-textMuted bg-cardBg/50">
         CYAL Matematik Platformu &bull; Tüm MEB Müfredatı İle Uyumlu
     </footer>
 
@@ -441,7 +457,7 @@
             const newName = document.getElementById('settings-name').value.trim();
             if (newName) {
                 currentUser.name = newName;
-                localStorage.setItem('cyal_math_user_v2', JSON.stringify(currentUser));
+                localStorage.getItem('cyal_math_user_v2', JSON.stringify(currentUser));
                 document.getElementById('header-user-name').innerText = currentUser.name;
                 renderTopics();
             }
