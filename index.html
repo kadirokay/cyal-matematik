@@ -3,1013 +3,587 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CYAL - Matematik Oyunu</title>
+    <title>CYAL - Okul Matematik Platformu</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
-        const firebaseConfig = {
-            apiKey: "AIzaSyAr8MLXIYTQMu25FxBuPROOJwfb1SZom3I",
-            authDomain: "cyal-mat-project.firebaseapp.com",
-            projectId: "cyal-mat-project",
-            storageBucket: "cyal-mat-project.firebasestorage.app",
-            messagingSenderId: "619607022586",
-            appId: "1:619607022586:web:f78bfffa2096a2ca4ea243",
-            measurementId: "G-5SYSN6ECWJ"
-        };  
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        brand: {
-                            black: '#0a0a0d',
-                            card: '#141419',
-                            cardHover: '#1d1d26',
-                            border: '#282836',
-                            orange: '#ff6600',
-                            orangeHover: '#e65c00',
-                            orangeLight: '#ff8533',
-                            orangeGlow: 'rgba(255, 102, 0, 0.35)',
-                            gold: '#ffb703'
-                        }
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        game: ['Fredoka', 'sans-serif']
+                        siteBg: '#18181b',       /* Hafif açık, gözü yormayan mat siyah */
+                        cardBg: '#27272a',       /* Kart ve kutu zeminleri */
+                        cardBorder: '#3f3f46',   /* İnce modern sınırlar */
+                        cyalOrange: '#f97316',   /* Okulun canlı turuncusu */
+                        cyalOrangeHover: '#ea580c',
+                        textPrimary: '#f4f4f5',
+                        textMuted: '#a1a1aa'
                     }
                 }
             }
         }
     </script>
-    <!-- FontAwesome Icons -->
+    <!-- FontAwesome İkon Seti -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-
     <style>
         body {
-            background-color: #0a0a0d;
-            color: #f3f4f6;
-            font-family: 'Inter', sans-serif;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .font-game {
-            font-family: 'Fredoka', cursive, sans-serif;
-        }
-
-        .orange-glow {
-            box-shadow: 0 0 25px rgba(255, 102, 0, 0.3);
-        }
-
-        .orange-glow-sm {
-            box-shadow: 0 0 12px rgba(255, 102, 0, 0.25);
-        }
-
-        .card-border {
-            border: 2px solid #282836;
-            transition: all 0.3s ease;
-        }
-
-        .card-border:hover {
-            border-color: #ff6600;
-        }
-
-        .pop-in {
-            animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        @keyframes popIn {
-            0% { transform: scale(0.92); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
-        }
-
-        .shake {
-            animation: shakeAnim 0.4s ease-in-out;
-        }
-
-        @keyframes shakeAnim {
-            0%, 100% { transform: translateX(0); }
-            20%, 60% { transform: translateX(-8px); }
-            40%, 80% { transform: translateX(8px); }
-        }
-
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #0a0a0d;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #282836;
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #ff6600;
+            background-color: #18181b;
+            color: #f4f4f5;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            user-select: none;
         }
     </style>
 </head>
-<body class="bg-brand-black text-gray-100 flex flex-col justify-between selection:bg-brand-orange selection:text-white">
+<body class="min-h-screen flex flex-col justify-between">
 
-    <!-- Header / Navbar -->
-    <header class="w-full bg-brand-card border-b-2 border-brand-orange/40 px-6 py-4 sticky top-0 z-50 shadow-xl">
-        <div class="max-w-6xl mx-auto flex justify-between items-center">
-            
-            <!-- Logo / Brand Title -->
-            <div class="flex items-center gap-3 cursor-pointer" onclick="goHome()">
-                <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-brand-orange to-amber-600 flex items-center justify-center text-white font-black text-2xl shadow-lg orange-glow-sm">
-                    CY
-                </div>
-                <div>
-                    <h1 class="text-2xl md:text-3xl font-black tracking-wider font-game text-brand-orange flex items-center gap-2">
-                        CYAL <span class="text-xs px-2.5 py-0.5 rounded-full bg-brand-orange/20 border border-brand-orange/50 text-brand-orangeLight font-sans">Matematik Arena</span>
-                    </h1>
-                    <p class="text-xs text-gray-400 hidden sm:block">Anaokulu & Ortaokul Zeka Oyunu</p>
-                </div>
+    <!-- ÜST BAŞLIK / HEADER -->
+    <header class="w-full bg-cardBg border-b border-cardBorder py-3 px-4 sm:px-8 flex items-center justify-between sticky top-0 z-40 shadow-md">
+        <div class="flex items-center gap-3 cursor-pointer" onclick="goHome()">
+            <div class="w-10 h-10 bg-cyalOrange rounded-xl flex items-center justify-center font-black text-black text-xl">
+                CY
             </div>
-
-            <!-- Header Controls & High Score -->
-            <div class="flex items-center gap-4">
-                <button onclick="toggleSound()" id="sound-btn" class="p-2.5 rounded-xl bg-brand-black border border-brand-border text-brand-orange hover:border-brand-orange transition" title="Ses Aç/Kapat">
-                    <i class="fa-solid fa-volume-high text-lg"></i>
-                </button>
-                <div class="bg-brand-black px-4 py-2 rounded-xl border border-brand-border flex items-center gap-2 text-sm">
-                    <i class="fa-solid fa-trophy text-brand-gold"></i>
-                    <span class="text-xs text-gray-400 hidden md:inline">En Yüksek:</span>
-                    <span id="global-highscore" class="font-bold text-brand-orange font-mono">0</span>
-                </div>
+            <div>
+                <h1 class="font-extrabold text-base sm:text-lg leading-tight tracking-wide">CYAL MATEMATİK</h1>
+                <p class="text-[11px] text-textMuted">İlkokul & Ortaokul Eğitim Arenası</p>
             </div>
-
         </div>
+
+        <!-- Profil / Ayarlar -->
+        <button onclick="openSettings()" class="bg-siteBg border border-cardBorder hover:border-cyalOrange text-textPrimary px-3 py-2 rounded-xl flex items-center gap-2 text-xs font-semibold transition">
+            <i class="fa-solid fa-user-gear text-cyalOrange text-sm"></i>
+            <span id="header-user-name" class="hidden sm:inline">Giriş Yapılmadı</span>
+        </button>
     </header>
 
-    <!-- Main Container -->
-    <main class="max-w-5xl w-full mx-auto p-4 md:p-6 my-auto flex-grow flex flex-col justify-center">
+    <!-- ANA İÇERİK ALANI -->
+    <main class="flex-1 max-w-4xl w-full mx-auto p-4 sm:p-6 flex flex-col justify-center">
 
-        <!-- ================= SECTION 1: MOD SEÇİMİ ================= -->
-        <section id="screen-select" class="space-y-8 pop-in">
-            <div class="text-center space-y-3">
-                <span class="px-4 py-1.5 rounded-full bg-brand-orange/15 text-brand-orange text-xs font-extrabold border border-brand-orange/40 uppercase tracking-widest">
-                    CYAL Matematik Dünyası
-                </span>
-                <h2 class="text-3xl md:text-5xl font-black font-game text-white">
-                    Modunu Seç ve <span class="text-brand-orange">Yarışmaya Başla!</span>
-                </h2>
-                <p class="text-gray-400 text-sm md:text-base max-w-2xl mx-auto">
-                    Kendi seviyene uygun modu seç veya arkadaşlarınla grup yarışması başlat!
-                </p>
+        <!-- EKRAN 1: BİLGİ KAYIT / HOŞ GELDİNİZ -->
+        <section id="view-login" class="bg-cardBg border border-cardBorder rounded-2xl p-6 sm:p-10 max-w-md mx-auto w-full shadow-2xl">
+            <div class="text-center mb-6">
+                <div class="w-14 h-14 bg-cyalOrange/10 border border-cyalOrange/30 text-cyalOrange rounded-2xl flex items-center justify-center mx-auto mb-3 text-2xl">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+                <h2 class="text-xl font-bold text-white">Platforma Giriş</h2>
+                <p class="text-xs text-textMuted mt-1">Bilgilerin bir kez kaydedilir, tekrar girmene gerek kalmaz.</p>
             </div>
 
-            <!-- Main Mode Cards Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2">
-                
-                <!-- 1. Anaokulu Modu -->
-                <div onclick="selectKindergarten()" class="bg-brand-card rounded-3xl p-6 card-border cursor-pointer group hover:bg-brand-cardHover transition-all duration-300 relative overflow-hidden flex flex-col justify-between space-y-6">
-                    <div class="absolute -right-8 -bottom-8 w-32 h-32 bg-brand-orange/10 rounded-full blur-2xl group-hover:bg-brand-orange/20 transition-all"></div>
-                    <div>
-                        <div class="flex justify-between items-start mb-4">
-                            <div class="w-14 h-14 rounded-2xl bg-brand-orange/20 border border-brand-orange/50 text-brand-orange flex items-center justify-center text-3xl group-hover:scale-110 transition-transform">
-                                🎈
-                            </div>
-                            <span class="text-xs font-bold text-brand-orange bg-brand-orange/20 px-3 py-1 rounded-full border border-brand-orange/30">
-                                Anaokulu
-                            </span>
-                        </div>
-                        <h3 class="text-2xl font-bold font-game text-white group-hover:text-brand-orange transition-colors">
-                            Minik Dahiler
-                        </h3>
-                        <p class="text-gray-400 text-sm mt-2 leading-relaxed">
-                            Resimli nesne sayma, 1-10 arası basit toplama ve çıkarma. Emojilerle eğlenceli öğrenme!
-                        </p>
-                    </div>
-                    <div class="flex items-center gap-2 text-brand-orange font-semibold text-sm">
-                        <span>Oyuna Başla</span>
-                        <i class="fa-solid fa-arrow-right group-hover:translate-x-2 transition-transform"></i>
-                    </div>
-                </div>
-
-                <!-- 2. Ortaokul Modu (Sınıf Seçimli) -->
-                <div onclick="showMiddleSchoolGrades()" class="bg-brand-card rounded-3xl p-6 card-border cursor-pointer group hover:bg-brand-cardHover transition-all duration-300 relative overflow-hidden flex flex-col justify-between space-y-6">
-                    <div class="absolute -right-8 -bottom-8 w-32 h-32 bg-brand-orange/10 rounded-full blur-2xl group-hover:bg-brand-orange/20 transition-all"></div>
-                    <div>
-                        <div class="flex justify-between items-start mb-4">
-                            <div class="w-14 h-14 rounded-2xl bg-brand-orange/20 border border-brand-orange/50 text-brand-orange flex items-center justify-center text-3xl group-hover:scale-110 transition-transform">
-                                🎓
-                            </div>
-                            <span class="text-xs font-bold text-brand-orange bg-brand-orange/20 px-3 py-1 rounded-full border border-brand-orange/30">
-                                5-8. Sınıf
-                            </span>
-                        </div>
-                        <h3 class="text-2xl font-bold font-game text-white group-hover:text-brand-orange transition-colors">
-                            Ortaokul Modu
-                        </h3>
-                        <p class="text-gray-400 text-sm mt-2 leading-relaxed">
-                            Sınıfını seç: Kesirler, üslü sayılar, denklemler ve köklü ifadeler. Zamana karşı yarış!
-                        </p>
-                    </div>
-                    <div class="flex items-center gap-2 text-brand-orange font-semibold text-sm">
-                        <span>Sınıf Seçimi Yap</span>
-                        <i class="fa-solid fa-chevron-right group-hover:translate-x-2 transition-transform"></i>
-                    </div>
-                </div>
-
-                <!-- 3. Grup / Takım Yarışması Modu -->
-                <div onclick="showGroupSetup()" class="bg-brand-card rounded-3xl p-6 card-border cursor-pointer group hover:bg-brand-cardHover transition-all duration-300 relative overflow-hidden flex flex-col justify-between space-y-6">
-                    <div class="absolute -right-8 -bottom-8 w-32 h-32 bg-brand-orange/10 rounded-full blur-2xl group-hover:bg-brand-orange/20 transition-all"></div>
-                    <div>
-                        <div class="flex justify-between items-start mb-4">
-                            <div class="w-14 h-14 rounded-2xl bg-brand-orange/20 border border-brand-orange/50 text-brand-orange flex items-center justify-center text-3xl group-hover:scale-110 transition-transform">
-                                ⚔️
-                            </div>
-                            <span class="text-xs font-bold text-brand-gold bg-amber-500/20 px-3 py-1 rounded-full border border-amber-500/40">
-                                Çoklu Oyuncu
-                            </span>
-                        </div>
-                        <h3 class="text-2xl font-bold font-game text-white group-hover:text-brand-orange transition-colors">
-                            Takım Yarışması
-                        </h3>
-                        <p class="text-gray-400 text-sm mt-2 leading-relaxed">
-                            Sınıfta takımlara ayrılın! 2, 3 veya 4 grup halinde sırayla yarışın, şampiyon takımı belirleyin.
-                        </p>
-                    </div>
-                    <div class="flex items-center gap-2 text-brand-orange font-semibold text-sm">
-                        <span>Grupları Kur</span>
-                        <i class="fa-solid fa-users group-hover:translate-x-2 transition-transform"></i>
-                    </div>
-                </div>
-
-            </div>
-        </section>
-
-
-        <!-- ================= SECTION 2: ORTAOKUL SINIF SEÇİM PANELİ ================= -->
-        <section id="screen-grades" class="hidden space-y-8 pop-in">
-            <div class="flex items-center gap-4">
-                <button onclick="goHome()" class="px-4 py-2 rounded-xl bg-brand-card hover:bg-brand-cardHover border border-brand-border text-sm text-gray-300 transition flex items-center gap-2">
-                    <i class="fa-solid fa-arrow-left"></i> Geri
-                </button>
+            <form onsubmit="saveUserAndContinue(event)" class="space-y-4">
                 <div>
-                    <h2 class="text-2xl md:text-3xl font-black font-game text-white">Ortaokul Sınıfını Seç</h2>
-                    <p class="text-xs text-gray-400">Müfredata uygun sorular hazırlanacaktır.</p>
-                </div>
-            </div>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-                
-                <!-- 5. Sınıf -->
-                <div onclick="startMiddleGame(5)" class="bg-brand-card rounded-2xl p-6 border-2 border-brand-border hover:border-brand-orange cursor-pointer group text-center space-y-4 hover:bg-brand-cardHover transition">
-                    <div class="w-16 h-16 mx-auto rounded-2xl bg-brand-orange/20 border border-brand-orange/40 text-brand-orange flex items-center justify-center font-black font-game text-3xl group-hover:scale-110 transition">
-                        5
-                    </div>
-                    <div>
-                        <h3 class="text-xl font-bold font-game text-white">5. Sınıf</h3>
-                        <p class="text-xs text-gray-400 mt-1">Dört İşlem, Basit Kesirler ve Yuvarlama</p>
-                    </div>
-                    <span class="inline-block px-3 py-1 rounded-lg bg-brand-black text-brand-orange text-xs font-bold border border-brand-border">Başla</span>
+                    <label class="block text-xs font-semibold text-textMuted mb-1">Ad Soyad veya Sınıf/Takım Adı</label>
+                    <input type="text" id="input-name" required placeholder="Örn: Mehmet Ali veya 6-B Takımı" class="w-full bg-siteBg border border-cardBorder rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-cyalOrange transition">
                 </div>
 
-                <!-- 6. Sınıf -->
-                <div onclick="startMiddleGame(6)" class="bg-brand-card rounded-2xl p-6 border-2 border-brand-border hover:border-brand-orange cursor-pointer group text-center space-y-4 hover:bg-brand-cardHover transition">
-                    <div class="w-16 h-16 mx-auto rounded-2xl bg-brand-orange/20 border border-brand-orange/40 text-brand-orange flex items-center justify-center font-black font-game text-3xl group-hover:scale-110 transition">
-                        6
-                    </div>
-                    <div>
-                        <h3 class="text-xl font-bold font-game text-white">6. Sınıf</h3>
-                        <p class="text-xs text-gray-400 mt-1">Tam Sayılar, Açılar ve Üslü İfadeler</p>
-                    </div>
-                    <span class="inline-block px-3 py-1 rounded-lg bg-brand-black text-brand-orange text-xs font-bold border border-brand-border">Başla</span>
-                </div>
-
-                <!-- 7. Sınıf -->
-                <div onclick="startMiddleGame(7)" class="bg-brand-card rounded-2xl p-6 border-2 border-brand-border hover:border-brand-orange cursor-pointer group text-center space-y-4 hover:bg-brand-cardHover transition">
-                    <div class="w-16 h-16 mx-auto rounded-2xl bg-brand-orange/20 border border-brand-orange/40 text-brand-orange flex items-center justify-center font-black font-game text-3xl group-hover:scale-110 transition">
-                        7
-                    </div>
-                    <div>
-                        <h3 class="text-xl font-bold font-game text-white">7. Sınıf</h3>
-                        <p class="text-xs text-gray-400 mt-1">Rasyonel Sayılar, Yüzdeler ve Oran-Orantı</p>
-                    </div>
-                    <span class="inline-block px-3 py-1 rounded-lg bg-brand-black text-brand-orange text-xs font-bold border border-brand-border">Başla</span>
-                </div>
-
-                <!-- 8. Sınıf -->
-                <div onclick="startMiddleGame(8)" class="bg-brand-card rounded-2xl p-6 border-2 border-brand-border hover:border-brand-orange cursor-pointer group text-center space-y-4 hover:bg-brand-cardHover transition">
-                    <div class="w-16 h-16 mx-auto rounded-2xl bg-brand-orange/20 border border-brand-orange/40 text-brand-orange flex items-center justify-center font-black font-game text-3xl group-hover:scale-110 transition">
-                        8
-                    </div>
-                    <div>
-                        <h3 class="text-xl font-bold font-game text-white">8. Sınıf (LGS)</h3>
-                        <p class="text-xs text-gray-400 mt-1">Kareköklü Sayılar, Denklemler ve Cebir</p>
-                    </div>
-                    <span class="inline-block px-3 py-1 rounded-lg bg-brand-black text-brand-orange text-xs font-bold border border-brand-border">Başla</span>
-                </div>
-
-            </div>
-        </section>
-
-
-        <!-- ================= SECTION 3: GRUP KURULUMU ================= -->
-        <section id="screen-group-setup" class="hidden space-y-6 max-w-xl mx-auto w-full pop-in">
-            <div class="bg-brand-card rounded-3xl p-6 md:p-8 border-2 border-brand-orange orange-glow space-y-6">
-                
-                <div class="flex justify-between items-center border-b border-brand-border pb-4">
-                    <h2 class="text-2xl font-black font-game text-white flex items-center gap-2">
-                        <i class="fa-solid fa-users text-brand-orange"></i> Takım Ayarları
-                    </h2>
-                    <button onclick="goHome()" class="text-xs text-gray-400 hover:text-white">İptal</button>
-                </div>
-
-                <!-- Number of teams selection -->
-                <div class="space-y-2">
-                    <label class="text-sm text-gray-300 font-semibold block">Kaç Takım Yarışacak?</label>
-                    <div class="grid grid-cols-3 gap-3">
-                        <button onclick="setTeamCount(2)" id="team-btn-2" class="py-2.5 rounded-xl bg-brand-orange text-white font-bold text-sm border-2 border-brand-orange">2 Takım</button>
-                        <button onclick="setTeamCount(3)" id="team-btn-3" class="py-2.5 rounded-xl bg-brand-black text-gray-300 font-bold text-sm border border-brand-border">3 Takım</button>
-                        <button onclick="setTeamCount(4)" id="team-btn-4" class="py-2.5 rounded-xl bg-brand-black text-gray-300 font-bold text-sm border border-brand-border">4 Takım</button>
-                    </div>
-                </div>
-
-                <!-- Team Names Inputs -->
-                <div class="space-y-3" id="team-inputs-container">
-                    <!-- Dynamic inputs inserted via JS -->
-                </div>
-
-                <!-- Group Difficulty Level -->
-                <div class="space-y-2">
-                    <label class="text-sm text-gray-300 font-semibold block">Soru Seviyesi</label>
-                    <select id="group-level-select" class="w-full bg-brand-black border border-brand-border text-white rounded-xl p-3 text-sm focus:border-brand-orange outline-none">
-                        <option value="kindergarten">Anaokulu Seviyesi (Kolay / Görsel)</option>
-                        <option value="5">5. Sınıf Seviyesi</option>
-                        <option value="6" selected>6. Sınıf Seviyesi</option>
-                        <option value="7">7. Sınıf Seviyesi</option>
-                        <option value="8">8. Sınıf Seviyesi</option>
+                <div>
+                    <label class="block text-xs font-semibold text-textMuted mb-1">Okul Kademeniz</label>
+                    <select id="input-level-type" onchange="updateGradeDropdown()" class="w-full bg-siteBg border border-cardBorder rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-cyalOrange transition">
+                        <option value="primary">İlkokul (1, 2, 3, 4. Sınıflar)</option>
+                        <option value="middle" selected>Ortaokul (5, 6, 7, 8. Sınıflar)</option>
                     </select>
                 </div>
 
-                <button onclick="startGroupGame()" class="w-full py-4 rounded-xl bg-brand-orange hover:bg-brand-orangeHover text-white font-bold text-base shadow-lg transition orange-glow-sm">
-                    Yarışmayı Başlat! 🚀
-                </button>
+                <div>
+                    <label class="block text-xs font-semibold text-textMuted mb-1">Sınıfınız</label>
+                    <select id="input-grade" class="w-full bg-siteBg border border-cardBorder rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-cyalOrange transition">
+                        <!-- JS ile Doldurulacak -->
+                    </select>
+                </div>
 
+                <button type="submit" class="w-full bg-cyalOrange hover:bg-cyalOrangeHover text-black font-bold py-3.5 px-4 rounded-xl transition flex items-center justify-center gap-2 mt-2 shadow-lg shadow-orange-500/10">
+                    <span>Giriş Yap ve Konuları Gör</span>
+                    <i class="fa-solid fa-arrow-right text-xs"></i>
+                </button>
+            </form>
+        </section>
+
+        <!-- EKRAN 2: MEB KONU BAŞLIKLARI SEÇİMİ -->
+        <section id="view-topics" class="hidden space-y-6">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-cardBg border border-cardBorder p-5 rounded-2xl">
+                <div>
+                    <span id="user-badge" class="text-[11px] uppercase tracking-wider font-extrabold text-cyalOrange bg-cyalOrange/10 border border-cyalOrange/20 px-3 py-1 rounded-lg">8. Sınıf</span>
+                    <h2 id="welcome-title" class="text-lg font-bold text-white mt-2">Çalışmak İstediğin Konuyu Seç</h2>
+                </div>
+                <button onclick="goHome()" class="text-xs text-textMuted hover:text-white bg-siteBg border border-cardBorder px-3.5 py-2 rounded-xl transition self-start sm:self-auto">
+                    <i class="fa-solid fa-rotate mr-1"></i> Sınıf Değiştir
+                </button>
+            </div>
+
+            <!-- Konular Izgarası -->
+            <div id="topics-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <!-- MEB Konuları JS İle Yüklenecek -->
             </div>
         </section>
 
-
-        <!-- ================= SECTION 4: OYUN EKRANI ================= -->
-        <section id="screen-game" class="hidden space-y-6 pop-in">
-            
-            <!-- Group Mode Turn Header (Only for Group Mode) -->
-            <div id="group-turn-bar" class="hidden bg-brand-card rounded-2xl p-4 border-2 border-brand-orange flex justify-between items-center">
-                <div class="flex items-center gap-3">
-                    <span class="w-3 h-3 rounded-full bg-brand-orange animate-ping"></span>
-                    <span class="text-xs text-gray-400">Sıradaki Takım:</span>
-                    <span id="current-team-name" class="font-extrabold text-lg text-brand-orange font-game">Takım 1</span>
+        <!-- EKRAN 3: SORU ÇÖZÜM ALANI (Akıllı Tahta & Mobil Uyumlu) -->
+        <section id="view-game" class="hidden max-w-2xl mx-auto w-full bg-cardBg border border-cardBorder rounded-2xl p-5 sm:p-8 shadow-xl">
+            <!-- Soru Üst Bilgisi -->
+            <div class="flex items-center justify-between border-b border-cardBorder pb-4 mb-6">
+                <div>
+                    <span class="text-[10px] text-textMuted block uppercase tracking-wider">SEÇİLİ KONU</span>
+                    <span id="game-topic-name" class="font-bold text-white text-xs sm:text-sm truncate max-w-[160px] sm:max-w-xs block text-cyalOrange">-</span>
                 </div>
-                <!-- Group Scores Bar -->
-                <div id="group-scores-display" class="flex gap-4 text-xs font-bold">
-                    <!-- Dynamic team scores -->
+                <div class="text-center">
+                    <span class="text-[10px] text-textMuted block uppercase tracking-wider">SKOR</span>
+                    <span id="game-score" class="font-black text-white text-xl font-mono">0</span>
                 </div>
-            </div>
-
-            <!-- Single Player HUD Bar -->
-            <div id="single-hud-bar" class="bg-brand-card rounded-2xl p-4 border border-brand-border flex flex-wrap justify-between items-center gap-4">
-                <button onclick="confirmExitGame()" class="px-3 py-1.5 rounded-lg bg-brand-black hover:bg-gray-800 text-xs text-gray-300 transition border border-brand-border flex items-center gap-2">
-                    <i class="fa-solid fa-house"></i> Menü
-                </button>
-
-                <div class="flex items-center gap-6">
-                    <!-- Timer -->
-                    <div id="timer-box" class="flex items-center gap-2 text-brand-orange font-mono font-bold">
-                        <i class="fa-solid fa-stopwatch text-lg animate-pulse"></i>
-                        <span id="timer-display" class="text-xl">30s</span>
-                    </div>
-
-                    <!-- Combo -->
-                    <div class="flex items-center gap-1.5 bg-brand-orange/10 border border-brand-orange/30 px-3 py-1 rounded-lg text-brand-orange font-bold text-sm">
-                        <i class="fa-solid fa-fire"></i>
-                        <span>Kombo: x<span id="combo-display">1</span></span>
-                    </div>
-
-                    <!-- Score -->
-                    <div class="flex items-center gap-2 bg-brand-orange/20 border border-brand-orange/40 px-3.5 py-1 rounded-lg text-white font-bold text-sm">
-                        <i class="fa-solid fa-star text-brand-gold"></i>
-                        <span>Puan: <span id="score-display">0</span></span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Question Box Card -->
-            <div id="question-card" class="bg-brand-card rounded-3xl p-6 md:p-10 border-2 border-brand-border orange-glow relative space-y-8 text-center">
-                
-                <!-- Active Category Badge -->
-                <div class="inline-block px-4 py-1 rounded-full bg-brand-black text-brand-orange border border-brand-orange/30 text-xs font-semibold uppercase tracking-wider" id="game-mode-badge">
-                    Anaokulu Modu
-                </div>
-
-                <!-- Visual Helpers for Kindergarten -->
-                <div id="visual-helper" class="hidden flex-wrap justify-center items-center gap-2 py-3 min-h-[70px] bg-brand-black/60 p-4 rounded-2xl border border-brand-border">
-                    <!-- Dynamic icons injected via JS -->
-                </div>
-
-                <!-- Mathematical Question Text -->
-                <div class="py-2">
-                    <h2 id="question-text" class="text-3xl md:text-5xl font-extrabold font-game text-white tracking-wide leading-relaxed">
-                        5 + 3 = ?
-                    </h2>
-                </div>
-
-                <!-- Answer Choices Grid -->
-                <div id="answers-grid" class="grid grid-cols-2 gap-4 max-w-xl mx-auto">
-                    <!-- Dynamic buttons injected via JS -->
-                </div>
-
-                <!-- Feedback Toast -->
-                <div id="feedback-message" class="h-6 font-bold text-base transition-all duration-200"></div>
-            </div>
-
-        </section>
-
-
-        <!-- ================= SECTION 5: SONUÇ / SKOR EKRANI ================= -->
-        <section id="screen-result" class="hidden space-y-6 text-center pop-in">
-            <div class="bg-brand-card rounded-3xl p-8 md:p-12 border-2 border-brand-orange orange-glow max-w-lg mx-auto space-y-6">
-                
-                <div class="w-20 h-20 mx-auto rounded-3xl bg-brand-orange/20 border-2 border-brand-orange flex items-center justify-center text-4xl text-brand-orange">
-                    🏆
-                </div>
-
-                <div class="space-y-1">
-                    <h2 id="result-title" class="text-3xl font-black font-game text-white">Yarışma Bitti!</h2>
-                    <p id="result-subtitle" class="text-gray-400 text-sm">Harika bir performans sergiledin.</p>
-                </div>
-
-                <!-- Single Player Score Summary -->
-                <div id="single-result-box" class="bg-brand-black rounded-2xl p-5 border border-brand-border space-y-3 text-sm">
-                    <div class="flex justify-between items-center border-b border-gray-800 pb-2">
-                        <span class="text-gray-400">Toplam Puan:</span>
-                        <span id="final-score" class="text-2xl font-bold font-mono text-brand-orange">0</span>
-                    </div>
-                    <div class="flex justify-between items-center border-b border-gray-800 pb-2">
-                        <span class="text-gray-400">Doğru Sayısı:</span>
-                        <span id="final-correct" class="text-base font-bold text-emerald-400">0</span>
-                    </div>
-                    <div class="flex justify-between items-center">
-                        <span class="text-gray-400">En Yüksek Kombo:</span>
-                        <span id="final-combo" class="text-base font-bold text-brand-orangeLight">x0</span>
-                    </div>
-                </div>
-
-                <!-- Group Leaderboard Summary -->
-                <div id="group-result-box" class="hidden bg-brand-black rounded-2xl p-5 border border-brand-border space-y-3">
-                    <h4 class="text-xs text-gray-400 font-bold uppercase tracking-wider text-left">Takım Sıralaması</h4>
-                    <div id="group-leaderboard-list" class="space-y-2">
-                        <!-- Dynamic group leaderboard -->
-                    </div>
-                </div>
-
-                <!-- Action Buttons -->
-                <div class="flex flex-col sm:flex-row gap-3 pt-2">
-                    <button onclick="restartGame()" class="flex-1 py-3.5 px-4 rounded-xl bg-brand-orange hover:bg-brand-orangeHover text-white font-bold text-sm transition shadow-lg flex items-center justify-center gap-2">
-                        <i class="fa-solid fa-rotate-right"></i> Tekrar Oyna
-                    </button>
-                    <button onclick="goHome()" class="flex-1 py-3.5 px-4 rounded-xl bg-brand-black hover:bg-gray-800 text-gray-300 font-bold text-sm transition border border-brand-border flex items-center justify-center gap-2">
-                        <i class="fa-solid fa-list"></i> Ana Menü
+                <div>
+                    <button onclick="exitGame()" class="text-xs text-textMuted hover:text-white bg-siteBg border border-cardBorder px-3 py-1.5 rounded-lg transition">
+                        Konulara Dön
                     </button>
                 </div>
+            </div>
 
+            <!-- Soru Alanı -->
+            <div class="text-center py-6 sm:py-8">
+                <span id="difficulty-badge" class="text-[10px] font-bold text-textMuted uppercase bg-siteBg px-2.5 py-1 rounded-full border border-cardBorder mb-4 inline-block">Zorluk Seviyesi: Normal</span>
+                <p id="game-question-text" class="text-2xl sm:text-4xl font-extrabold text-white leading-relaxed font-mono">
+                    Soru Hazırlanıyor...
+                </p>
+            </div>
+
+            <!-- Cevap Şıkları -->
+            <div id="game-options-container" class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
+                <!-- Şıklar Gelecek -->
             </div>
         </section>
 
     </main>
 
-    <!-- Footer -->
-    <footer class="w-full bg-brand-card border-t border-brand-border py-4 px-6 text-center text-xs text-gray-500">
-        <div class="max-w-6xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
-            <span class="font-bold text-gray-400">CYAL MATEMATİK &copy; 2026</span>
-            <span class="text-brand-orange flex items-center gap-1.5">
-               
-            </span>
+    <!-- AYARLAR & PROFİL MODALI -->
+    <div id="modal-settings" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-cardBg border border-cardBorder rounded-2xl p-6 max-w-md w-full relative shadow-2xl">
+            <button onclick="closeSettings()" class="absolute top-4 right-4 text-textMuted hover:text-white">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+
+            <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
+                <i class="fa-solid fa-sliders text-cyalOrange"></i> Profil & Ayarlar
+            </h3>
+
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-textMuted mb-1">İsim / Takım Adı Güncelle</label>
+                    <input type="text" id="settings-name" class="w-full bg-siteBg border border-cardBorder rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-cyalOrange">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-textMuted mb-1">Arayüz Sesleri</label>
+                    <button id="btn-toggle-sound" onclick="toggleSoundSetting()" class="w-full bg-siteBg border border-cardBorder py-2.5 px-4 rounded-xl text-xs font-bold flex items-center justify-between text-white">
+                        <span>Tıklama ve Bildirim Sesleri</span>
+                        <span id="sound-status-text" class="text-cyalOrange">Açık</span>
+                    </button>
+                </div>
+
+                <div class="pt-3 border-t border-cardBorder flex gap-2">
+                    <button onclick="saveSettings()" class="flex-1 bg-cyalOrange hover:bg-cyalOrangeHover text-black font-bold py-2.5 rounded-xl text-xs transition">
+                        Kaydet
+                    </button>
+                    <button onclick="resetUserData()" class="bg-siteBg border border-cardBorder text-textMuted hover:text-white px-4 py-2.5 rounded-xl text-xs transition">
+                        Hesabı Sıfırla
+                    </button>
+                </div>
+            </div>
         </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="w-full border-t border-cardBorder py-3 px-4 text-center text-[11px] text-textMuted bg-cardBg/50">
+        CYAL Matematik Platformu &bull; Tüm MEB Müfredatı İle Uyumlu
     </footer>
 
-
-    <!-- GAME ENGINE JAVASCRIPT -->
+    <!-- JAVASCRIPT KODLARI -->
     <script>
-        // Sound FX Engine (Web Audio API - No External Files Required)
-        let soundEnabled = true;
-        const AudioCtx = window.AudioContext || window.webkitAudioContext;
-        let audioCtx = null;
+        // --- MEB 1-8. SINIF BÜTÜN MATEMATİK MÜFREDAT KONULARI ---
+        const MEB_CURRICULUM = {
+            "1": [
+                "Doğal Sayılar (0-20 Sayma ve Okuma)",
+                "Toplama İşlemi (10 ve 20 İçi Toplama)",
+                "Çıkarma İşlemi (Eksilen ve Kalan)",
+                "Geometrik Şekiller ve Nesneler",
+                "Zamanı Ölçme (Tam ve Yarım Saatler)",
+                "Paralarımız (Kuruş ve Lira Kavramı)"
+            ],
+            "2": [
+                "Doğal Sayılar (100'e Kadar Okuma/Yazma)",
+                "Eldeli Toplama ve Onluk Bozarak Çıkarma",
+                "Çarpma İşlemine Giriş ve Çarpım Tablosu",
+                "Bölme İşlemi Kavramı ve Gruplama",
+                "Kesirler (Bütün, Yarım, Çeyrek)",
+                "Veri Toplama ve Çetele Tablosu"
+            ],
+            "3": [
+                "Üç Basamaklı Doğal Sayılar ve Basamak Değeri",
+                "Çarpma İşlemi (2 ve 3 Basamaklı Sayılar)",
+                "Kalanlı ve Kalansız Bölme İşlemi",
+                "Lira ve Kuruş İlişkisi / Problem Çözümü",
+                "Zamanı Ölçme (Dakika, Saat, Gün)",
+                "Geometride Açı ve Çevre Ölçme"
+            ],
+            "4": [
+                "4, 5 ve 6 Basamaklı Doğal Sayılar",
+                "Dört İşlem Problemleri ve Tahmin Etme",
+                "Kesir Türleri (Basit, Bileşik, Tam Sayılı)",
+                "Kesirlerle Toplama ve Çıkarma",
+                "Ondalık Gösterim ve Yüzdeler",
+                "Açılar, Alan ve Çevre Ölçümleri"
+            ],
+            "5": [
+                "Doğal Sayılar ve Çok Basamaklı İşlemler",
+                "Kesirlerle İşlemler ve Sadeleştirme",
+                "Ondalık Gösterim ve Basamak Değerleri",
+                "Yüzdeler ve Yüzde Hesapları",
+                "Temel Geometrik Kavramlar ve Çizimler",
+                "Veri Toplama, Düzenleme ve Sütun Grafiği"
+            ],
+            "6": [
+                "Çarpanlar ve Katlar / Bölünebilme Kuralları",
+                "Açılar (Komşu, Tümler, Bütünler, Ters)",
+                "Tam Sayılar ve Mutlak Değer",
+                "Kesirlerle Bölme ve Dört İşlem",
+                "Oran ve Orantı Kavramı",
+                "Geometrik Cisimler ve Hacim Ölçme"
+            ],
+            "7": [
+                "Tam Sayılarla Dört İşlem ve Problemler",
+                "Rasyonel Sayılar ve Dört İşlem",
+                "Cebirsel İfadeler ve Eşitlik/Denklem",
+                "Oran - Orantı ve Doğru/Ters Orantı",
+                "Yüzde Problemleri ve Kar-Zarar Hesabı",
+                "Çember, Daire ve Çokgenlerde Alan"
+            ],
+            "8": [
+                "Çarpanlar ve Katlar (EBOB ve EKOK)",
+                "Üslü İfadeler ve Bilimsel Gösterim",
+                "Kareköklü İfadeler ve İşlemler",
+                "Veri Analizi (Çizgi, Sütun, Daire Grafiği)",
+                "Basit Olayların Olma Olasılığı",
+                "Cebirsel İfadeler ve Özdeşlikler",
+                "Doğrusal Denklemler ve Eğim"
+            ]
+        };
 
+        // KULLANICI STATE
+        let currentUser = {
+            name: '',
+            levelType: 'middle',
+            grade: '8',
+            soundEnabled: true
+        };
+
+        let currentActiveQuestion = null;
+        let score = 0;
+        let selectedTopic = '';
+
+        // SES EFEKTLERİ (Web Audio API)
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         function playSound(type) {
-            if (!soundEnabled) return;
+            if (!currentUser.soundEnabled) return;
             try {
-                if (!audioCtx) audioCtx = new AudioCtx();
+                if (audioCtx.state === 'suspended') audioCtx.resume();
                 const osc = audioCtx.createOscillator();
                 const gain = audioCtx.createGain();
                 osc.connect(gain);
                 gain.connect(audioCtx.destination);
 
-                if (type === 'correct') {
-                    osc.type = 'sine';
-                    osc.frequency.setValueAtTime(523.25, audioCtx.currentTime); // C5
-                    osc.frequency.setValueAtTime(659.25, audioCtx.currentTime + 0.1); // E5
-                    gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
-                    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+                if (type === 'click') {
+                    osc.frequency.setValueAtTime(350, audioCtx.currentTime);
+                    gain.gain.setValueAtTime(0.04, audioCtx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.04);
                     osc.start();
-                    osc.stop(audioCtx.currentTime + 0.3);
+                    osc.stop(audioCtx.currentTime + 0.04);
+                } else if (type === 'correct') {
+                    osc.frequency.setValueAtTime(523.25, audioCtx.currentTime);
+                    osc.frequency.setValueAtTime(659.25, audioCtx.currentTime + 0.08);
+                    gain.gain.setValueAtTime(0.06, audioCtx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.2);
+                    osc.start();
+                    osc.stop(audioCtx.currentTime + 0.2);
                 } else if (type === 'wrong') {
-                    osc.type = 'sawtooth';
-                    osc.frequency.setValueAtTime(180, audioCtx.currentTime);
-                    osc.frequency.setValueAtTime(130, audioCtx.currentTime + 0.15);
-                    gain.gain.setValueAtTime(0.25, audioCtx.currentTime);
-                    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.35);
+                    osc.frequency.setValueAtTime(200, audioCtx.currentTime);
+                    osc.frequency.setValueAtTime(150, audioCtx.currentTime + 0.08);
+                    gain.gain.setValueAtTime(0.06, audioCtx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.2);
                     osc.start();
-                    osc.stop(audioCtx.currentTime + 0.35);
-                } else if (type === 'click') {
-                    osc.type = 'triangle';
-                    osc.frequency.setValueAtTime(400, audioCtx.currentTime);
-                    gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
-                    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.05);
-                    osc.start();
-                    osc.stop(audioCtx.currentTime + 0.05);
+                    osc.stop(audioCtx.currentTime + 0.2);
                 }
             } catch(e) {}
         }
 
-        function toggleSound() {
-            soundEnabled = !soundEnabled;
-            const btn = document.getElementById('sound-btn');
-            btn.innerHTML = soundEnabled 
-                ? '<i class="fa-solid fa-volume-high text-lg"></i>' 
-                : '<i class="fa-solid fa-volume-xmark text-lg text-gray-500"></i>';
-        }
+        // SAYFA İLK AÇILIŞI
+        window.addEventListener('DOMContentLoaded', () => {
+            loadUserData();
+            updateGradeDropdown();
 
-        // State variables
-        let gameMode = 'kindergarten'; // 'kindergarten', 'middle', 'group'
-        let selectedGrade = 5; // 5, 6, 7, 8
-        let isGroupMode = false;
+            if (currentUser.name) {
+                showView('view-topics');
+                renderTopics();
+            } else {
+                showView('view-login');
+            }
+        });
 
-        // Single player metrics
-        let score = 0;
-        let combo = 1;
-        let maxCombo = 1;
-        let correctAnswersCount = 0;
-        let currentQuestion = null;
-        let timerInterval = null;
-        let timeLeft = 30;
-
-        // Group mode variables
-        let teamCount = 2;
-        let teams = []; // [{ name: 'Takım 1', score: 0 }, ...]
-        let currentTeamIndex = 0;
-        let groupTotalRounds = 10;
-        let currentRound = 0;
-
-        const emojiList = ['🍎', '⭐️', '🎈', '🐱', '🚀', '⚽️', '🧸', '🚗', '🐥', '🦁'];
-
-        // DOM Elements
-        const screenSelect = document.getElementById('screen-select');
-        const screenGrades = document.getElementById('screen-grades');
-        const screenGroupSetup = document.getElementById('screen-group-setup');
-        const screenGame = document.getElementById('screen-game');
-        const screenResult = document.getElementById('screen-result');
-        const globalHighscoreEl = document.getElementById('global-highscore');
-
-        const scoreDisplay = document.getElementById('score-display');
-        const comboDisplay = document.getElementById('combo-display');
-        const timerDisplay = document.getElementById('timer-display');
-        const gameModeBadge = document.getElementById('game-mode-badge');
-        
-        const visualHelper = document.getElementById('visual-helper');
-        const questionText = document.getElementById('question-text');
-        const answersGrid = document.getElementById('answers-grid');
-        const feedbackMsg = document.getElementById('feedback-message');
-        const questionCard = document.getElementById('question-card');
-
-        // Init
-        window.onload = () => {
-            const savedScore = localStorage.getItem('cyal_math_highscore') || 0;
-            globalHighscoreEl.textContent = savedScore;
-        };
-
-        // Navigation
-        function goHome() {
-            playSound('click');
-            clearInterval(timerInterval);
-            screenSelect.classList.remove('hidden');
-            screenGrades.classList.add('hidden');
-            screenGroupSetup.classList.add('hidden');
-            screenGame.classList.add('hidden');
-            screenResult.classList.add('hidden');
-        }
-
-        function confirmExitGame() {
-            if (confirm("Oyundan çıkmak istediğine emin misin?")) {
-                goHome();
+        // BİLGİ KAYDI VE ARAMA
+        function loadUserData() {
+            const saved = localStorage.getItem('cyal_math_user_v2');
+            if (saved) {
+                currentUser = JSON.parse(saved);
+                document.getElementById('input-name').value = currentUser.name || '';
+                document.getElementById('input-level-type').value = currentUser.levelType || 'middle';
+                document.getElementById('header-user-name').innerText = currentUser.name;
             }
         }
 
-        // Mode 1: Kindergarten
-        function selectKindergarten() {
+        function saveUserAndContinue(e) {
+            if (e) e.preventDefault();
             playSound('click');
-            gameMode = 'kindergarten';
-            isGroupMode = false;
-            initSinglePlayerGame();
+
+            currentUser.name = document.getElementById('input-name').value.trim();
+            currentUser.levelType = document.getElementById('input-level-type').value;
+            currentUser.grade = document.getElementById('input-grade').value;
+
+            localStorage.setItem('cyal_math_user_v2', JSON.stringify(currentUser));
+            document.getElementById('header-user-name').innerText = currentUser.name;
+
+            renderTopics();
+            showView('view-topics');
         }
 
-        // Mode 2: Middle School Grades
-        function showMiddleSchoolGrades() {
-            playSound('click');
-            screenSelect.classList.add('hidden');
-            screenGrades.classList.remove('hidden');
-        }
+        function updateGradeDropdown() {
+            const level = document.getElementById('input-level-type').value;
+            const gradeSelect = document.getElementById('input-grade');
+            gradeSelect.innerHTML = '';
 
-        function startMiddleGame(grade) {
-            playSound('click');
-            gameMode = 'middle';
-            selectedGrade = grade;
-            isGroupMode = false;
-            screenGrades.classList.add('hidden');
-            initSinglePlayerGame();
-        }
-
-        // Mode 3: Group Setup
-        function showGroupSetup() {
-            playSound('click');
-            screenSelect.classList.add('hidden');
-            screenGroupSetup.classList.remove('hidden');
-            renderTeamInputs();
-        }
-
-        function setTeamCount(count) {
-            playSound('click');
-            teamCount = count;
-            [2, 3, 4].forEach(c => {
-                const btn = document.getElementById(`team-btn-${c}`);
-                if (c === count) {
-                    btn.className = 'py-2.5 rounded-xl bg-brand-orange text-white font-bold text-sm border-2 border-brand-orange';
-                } else {
-                    btn.className = 'py-2.5 rounded-xl bg-brand-black text-gray-300 font-bold text-sm border border-brand-border';
-                }
+            const grades = level === 'primary' ? ['1', '2', '3', '4'] : ['5', '6', '7', '8'];
+            grades.forEach(g => {
+                const opt = document.createElement('option');
+                opt.value = g;
+                opt.innerText = `${g}. Sınıf`;
+                if (currentUser.grade === g) opt.selected = true;
+                gradeSelect.appendChild(opt);
             });
-            renderTeamInputs();
         }
 
-        function renderTeamInputs() {
-            const container = document.getElementById('team-inputs-container');
-            container.innerHTML = '';
-            for (let i = 1; i <= teamCount; i++) {
-                container.innerHTML += `
+        // KONU LİSTELEME
+        function renderTopics() {
+            const grid = document.getElementById('topics-grid');
+            grid.innerHTML = '';
+
+            const grade = currentUser.grade || '8';
+            document.getElementById('user-badge').innerText = `${grade}. Sınıf MEB Müfredatı`;
+            document.getElementById('welcome-title').innerText = `Hoş geldin ${currentUser.name}, çalışmak istediğin konuyu seç:`;
+
+            const topics = MEB_CURRICULUM[grade] || [];
+            topics.forEach((topic, idx) => {
+                const card = document.createElement('div');
+                card.className = "bg-cardBg border border-cardBorder hover:border-cyalOrange p-4 rounded-xl cursor-pointer transition flex items-center justify-between group shadow-sm";
+                card.onclick = () => startTopicGame(topic);
+                card.innerHTML = `
                     <div class="flex items-center gap-3">
-                        <span class="w-8 h-8 rounded-lg bg-brand-orange/20 border border-brand-orange/40 text-brand-orange font-bold text-xs flex items-center justify-center">${i}</span>
-                        <input type="text" id="team-name-input-${i}" value="${i}. Takım" placeholder="Takım Adı" class="flex-1 bg-brand-black border border-brand-border text-white rounded-xl p-2.5 text-sm focus:border-brand-orange outline-none">
+                        <div class="w-8 h-8 rounded-lg bg-siteBg border border-cardBorder text-cyalOrange font-bold flex items-center justify-center text-xs">
+                            ${idx + 1}
+                        </div>
+                        <span class="font-medium text-xs sm:text-sm text-white group-hover:text-cyalOrange transition">${topic}</span>
                     </div>
+                    <i class="fa-solid fa-chevron-right text-xs text-textMuted group-hover:text-cyalOrange transition"></i>
                 `;
-            }
-        }
-
-        function startGroupGame() {
-            playSound('click');
-            isGroupMode = true;
-            teams = [];
-            for (let i = 1; i <= teamCount; i++) {
-                const nameInput = document.getElementById(`team-name-input-${i}`);
-                teams.push({
-                    name: nameInput ? (nameInput.value.trim() || `${i}. Takım`) : `${i}. Takım`,
-                    score: 0
-                });
-            }
-
-            const levelVal = document.getElementById('group-level-select').value;
-            if (levelVal === 'kindergarten') {
-                gameMode = 'kindergarten';
-            } else {
-                gameMode = 'middle';
-                selectedGrade = parseInt(levelVal);
-            }
-
-            currentTeamIndex = 0;
-            currentRound = 0;
-            groupTotalRounds = teams.length * 5; // 5 questions per team
-
-            screenGroupSetup.classList.add('hidden');
-            screenGame.classList.remove('hidden');
-
-            document.getElementById('group-turn-bar').classList.remove('hidden');
-            document.getElementById('single-hud-bar').classList.add('hidden');
-
-            updateGroupHud();
-            nextQuestion();
-        }
-
-        function updateGroupHud() {
-            document.getElementById('current-team-name').textContent = teams[currentTeamIndex].name;
-            const container = document.getElementById('group-scores-display');
-            container.innerHTML = teams.map((t, idx) => `
-                <div class="px-2.5 py-1 rounded-lg ${idx === currentTeamIndex ? 'bg-brand-orange text-white' : 'bg-brand-black text-gray-400 border border-brand-border'}">
-                    ${t.name}: ${t.score}
-                </div>
-            `).join('');
-
-            gameModeBadge.textContent = gameMode === 'kindergarten' ? 'Grup Yarışması (Anaokulu)' : `Grup Yarışması (${selectedGrade}. Sınıf)`;
-        }
-
-        // Initialize Single Player
-        function initSinglePlayerGame() {
-            score = 0;
-            combo = 1;
-            maxCombo = 1;
-            correctAnswersCount = 0;
-
-            scoreDisplay.textContent = '0';
-            comboDisplay.textContent = '1';
-
-            screenGame.classList.remove('hidden');
-            document.getElementById('group-turn-bar').classList.add('hidden');
-            document.getElementById('single-hud-bar').classList.remove('hidden');
-
-            if (gameMode === 'kindergarten') {
-                gameModeBadge.textContent = 'Anaokulu Modu (1-10)';
-                document.getElementById('timer-box').classList.add('hidden');
-                visualHelper.classList.remove('hidden');
-            } else {
-                gameModeBadge.textContent = `${selectedGrade}. Sınıf Ortaokul Modu`;
-                document.getElementById('timer-box').classList.remove('hidden');
-                visualHelper.classList.add('hidden');
-                startTimer();
-            }
-
-            nextQuestion();
-        }
-
-        function restartGame() {
-            playSound('click');
-            if (isGroupMode) {
-                showGroupSetup();
-            } else {
-                initSinglePlayerGame();
-            }
-        }
-
-        // Timer
-        function startTimer() {
-            timeLeft = 30;
-            timerDisplay.textContent = `${timeLeft}s`;
-            clearInterval(timerInterval);
-
-            timerInterval = setInterval(() => {
-                timeLeft--;
-                timerDisplay.textContent = `${timeLeft}s`;
-
-                if (timeLeft <= 5) {
-                    timerDisplay.classList.add('text-red-500');
-                } else {
-                    timerDisplay.classList.remove('text-red-500');
-                }
-
-                if (timeLeft <= 0) {
-                    clearInterval(timerInterval);
-                    endGame();
-                }
-            }, 1000);
-        }
-
-        // Question Generators
-        function generateQuestion() {
-            let num1, num2, answer, text, choices, selectedEmoji;
-
-            if (gameMode === 'kindergarten') {
-                const isAddition = Math.random() > 0.3;
-                selectedEmoji = emojiList[Math.floor(Math.random() * emojiList.length)];
-
-                if (isAddition) {
-                    num1 = Math.floor(Math.random() * 5) + 1;
-                    num2 = Math.floor(Math.random() * 5) + 1;
-                    answer = num1 + num2;
-                    text = `${num1} + ${num2} = ?`;
-                } else {
-                    num1 = Math.floor(Math.random() * 5) + 4;
-                    num2 = Math.floor(Math.random() * num1) + 1;
-                    answer = num1 - num2;
-                    text = `${num1} - ${num2} = ?`;
-                }
-
-                visualHelper.innerHTML = '';
-                for (let i = 0; i < num1; i++) {
-                    visualHelper.innerHTML += `<span class="text-2xl md:text-3xl">${selectedEmoji}</span>`;
-                }
-                visualHelper.innerHTML += `<span class="text-xl font-black text-brand-orange mx-2">${isAddition ? '+' : '-'}</span>`;
-                for (let i = 0; i < num2; i++) {
-                    visualHelper.innerHTML += `<span class="text-2xl md:text-3xl">${selectedEmoji}</span>`;
-                }
-
-            } else {
-                // Middle school generator by grade
-                if (selectedGrade === 5) {
-                    // 5. Sınıf: Dört İşlem / Yuvarlama / Basit Kesir
-                    const type = Math.floor(Math.random() * 3);
-                    if (type === 0) { // Toplama/Çıkarma
-                        num1 = Math.floor(Math.random() * 200) + 50;
-                        num2 = Math.floor(Math.random() * 150) + 20;
-                        answer = num1 + num2;
-                        text = `${num1} + ${num2} = ?`;
-                    } else if (type === 1) { // Çarpma
-                        num1 = Math.floor(Math.random() * 25) + 5;
-                        num2 = Math.floor(Math.random() * 12) + 3;
-                        answer = num1 * num2;
-                        text = `${num1} × ${num2} = ?`;
-                    } else { // Bölme
-                        num2 = Math.floor(Math.random() * 9) + 2;
-                        answer = Math.floor(Math.random() * 20) + 5;
-                        num1 = num2 * answer;
-                        text = `${num1} ÷ ${num2} = ?`;
-                    }
-                } else if (selectedGrade === 6) {
-                    // 6. Sınıf: Tam Sayılar / Üslü Sayılar
-                    const type = Math.floor(Math.random() * 2);
-                    if (type === 0) { // Üslü İfadeler
-                        num1 = Math.floor(Math.random() * 7) + 2; // taban
-                        num2 = Math.floor(Math.random() * 3) + 2; // üs
-                        answer = Math.pow(num1, num2);
-                        text = `${num1}<sup>${num2}</sup> = ?`;
-                    } else { // Negatif Tam Sayılar
-                        let a = Math.floor(Math.random() * 20) - 10;
-                        let b = Math.floor(Math.random() * 20) - 10;
-                        answer = a + b;
-                        text = `(${a}) + (${b}) = ?`;
-                    }
-                } else if (selectedGrade === 7) {
-                    // 7. Sınıf: Yüzdeler / Rasyonel Sayılar
-                    const type = Math.floor(Math.random() * 2);
-                    if (type === 0) { // Yüzde
-                        const percents = [10, 20, 25, 50, 75];
-                        const p = percents[Math.floor(Math.random() * percents.length)];
-                        const val = (Math.floor(Math.random() * 10) + 1) * 20;
-                        answer = (val * p) / 100;
-                        text = `${val} sayısının %${p}'i kaçtır?`;
-                    } else { // Rasyonel Denklem
-                        let x = Math.floor(Math.random() * 10) + 1;
-                        let k = Math.floor(Math.random() * 5) + 2;
-                        let res = x * k;
-                        answer = x;
-                        text = `${k}x = ${res} ise x = ?`;
-                    }
-                } else {
-                    // 8. Sınıf: Karekök / Birinci Dereceden Denklem
-                    const type = Math.floor(Math.random() * 2);
-                    if (type === 0) { // Karekök
-                        answer = Math.floor(Math.random() * 12) + 2;
-                        let sq = answer * answer;
-                        text = `√${sq} = ?`;
-                    } else { // Denklem
-                        let a = Math.floor(Math.random() * 4) + 2;
-                        let b = Math.floor(Math.random() * 10) + 1;
-                        answer = Math.floor(Math.random() * 8) + 1;
-                        let c = (a * answer) + b;
-                        text = `${a}x + ${b} = ${c} ise x = ?`;
-                    }
-                }
-            }
-
-            // Generate 4 options
-            choices = [answer];
-            while (choices.length < 4) {
-                let diff = (Math.floor(Math.random() * 7) - 3) || 1;
-                let wrongChoice = answer + diff;
-                if (!choices.includes(wrongChoice)) {
-                    choices.push(wrongChoice);
-                }
-            }
-            choices.sort(() => Math.random() - 0.5);
-
-            return { text, answer, choices };
-        }
-
-        function nextQuestion() {
-            feedbackMsg.textContent = '';
-            currentQuestion = generateQuestion();
-            questionText.innerHTML = currentQuestion.text;
-
-            answersGrid.innerHTML = '';
-            currentQuestion.choices.forEach(choice => {
-                const btn = document.createElement('button');
-                btn.className = `py-4 px-6 rounded-2xl bg-brand-black hover:bg-brand-orange/20 border-2 border-brand-border hover:border-brand-orange text-2xl font-bold font-game transition-all duration-200 transform hover:-translate-y-1 active:translate-y-0 text-white`;
-                btn.innerHTML = choice;
-                btn.onclick = () => checkAnswer(choice, btn);
-                answersGrid.appendChild(btn);
+                grid.appendChild(card);
             });
         }
 
-        function checkAnswer(selectedOption, buttonEl) {
-            const allBtns = answersGrid.querySelectorAll('button');
-            allBtns.forEach(b => b.disabled = true);
+        // SINIFA ÖZEL ZORLUK SEVİYESİNE GÖRE SORU ÜRETİMİ
+        function startTopicGame(topicName) {
+            playSound('click');
+            selectedTopic = topicName;
+            document.getElementById('game-topic-name').innerText = topicName;
+            score = 0;
+            document.getElementById('game-score').innerText = score;
+            showView('view-game');
+            generateGradeBasedQuestion();
+        }
 
-            if (selectedOption === currentQuestion.answer) {
-                playSound('correct');
-                buttonEl.classList.remove('bg-brand-black', 'border-brand-border');
-                buttonEl.classList.add('bg-emerald-600', 'border-emerald-400', 'text-white');
-                
-                feedbackMsg.textContent = '🎉 Doğru Cevap!';
-                feedbackMsg.className = 'h-6 font-bold text-base text-emerald-400';
+        function generateGradeBasedQuestion() {
+            const grade = parseInt(currentUser.grade || '8');
+            let qText = '';
+            let ans = 0;
+            let diffLabel = 'Kolay';
 
-                if (isGroupMode) {
-                    teams[currentTeamIndex].score += 10;
+            // 1 ve 2. Sınıf Zorluk Derecesi
+            if (grade <= 2) {
+                diffLabel = 'Temel Seviye';
+                const n1 = Math.floor(Math.random() * (grade === 1 ? 15 : 40)) + 1;
+                const n2 = Math.floor(Math.random() * (grade === 1 ? 10 : 30)) + 1;
+                const isAdd = Math.random() > 0.4;
+                if (isAdd) {
+                    qText = `${n1} + ${n2} = ?`;
+                    ans = n1 + n2;
                 } else {
-                    correctAnswersCount++;
-                    score += (10 * combo);
-                    combo++;
-                    if (combo > maxCombo) maxCombo = combo;
-                    if (gameMode === 'middle') timeLeft += 2;
+                    const max = Math.max(n1, n2);
+                    const min = Math.min(n1, n2);
+                    qText = `${max} - ${min} = ?`;
+                    ans = max - min;
                 }
+            } 
+            // 3 ve 4. Sınıf Zorluk Derecesi
+            else if (grade <= 4) {
+                diffLabel = 'Orta Seviye';
+                const type = Math.floor(Math.random() * 3);
+                if (type === 0) { // Çarpma
+                    const n1 = Math.floor(Math.random() * 9) + 2;
+                    const n2 = Math.floor(Math.random() * 9) + 2;
+                    qText = `${n1} × ${n2} = ?`;
+                    ans = n1 * n2;
+                } else if (type === 1) { // Bölme
+                    const n2 = Math.floor(Math.random() * 8) + 2;
+                    ans = Math.floor(Math.random() * 9) + 2;
+                    const n1 = ans * n2;
+                    qText = `${n1} ÷ ${n2} = ?`;
+                } else { // Toplama/Çıkarma
+                    const n1 = Math.floor(Math.random() * 200) + 50;
+                    const n2 = Math.floor(Math.random() * 150) + 20;
+                    qText = `${n1} + ${n2} = ?`;
+                    ans = n1 + n2;
+                }
+            }
+            // 5 ve 6. Sınıf Zorluk Derecesi
+            else if (grade <= 6) {
+                diffLabel = 'İleri Seviye';
+                const type = Math.floor(Math.random() * 3);
+                if (type === 0) { // İşlem Önceliği / Üslü
+                    const base = Math.floor(Math.random() * 6) + 2;
+                    qText = `${base}² + ${Math.floor(Math.random() * 20) + 5} = ?`;
+                    ans = (base * base) + (parseInt(qText.split('+')[1]));
+                } else if (type === 1) { // Tam sayılar
+                    const n1 = Math.floor(Math.random() * 15) + 5;
+                    const n2 = Math.floor(Math.random() * 20) + 5;
+                    qText = `${n1} - ${n2} = ?`;
+                    ans = n1 - n2;
+                } else { // Oran / Katlar
+                    const base = Math.floor(Math.random() * 12) + 3;
+                    const mult = Math.floor(Math.random() * 5) + 2;
+                    qText = `${base} sayısının ${mult} katı kaçtır?`;
+                    ans = base * mult;
+                }
+            }
+            // 7 ve 8. Sınıf Zorluk Derecesi (LGS Mantığı)
+            else {
+                diffLabel = 'LGS / Üst Seviye';
+                const type = Math.floor(Math.random() * 3);
+                if (type === 0) { // Karekök
+                    const perfects = [4, 9, 16, 25, 36, 49, 64, 81, 100, 121, 144];
+                    const val = perfects[Math.floor(Math.random() * perfects.length)];
+                    qText = `√${val} + ${Math.floor(Math.random() * 10) + 1} = ?`;
+                    ans = Math.sqrt(val) + (parseInt(qText.split('+')[1]));
+                } else if (type === 1) { // Üslü İfadeler
+                    const base = Math.floor(Math.random() * 4) + 2;
+                    const exp = Math.floor(Math.random() * 3) + 2;
+                    qText = `${base}<sup>${exp}</sup> - ${Math.floor(Math.random() * 5) + 1} = ?`;
+                    ans = Math.pow(base, exp) - (parseInt(qText.split('-')[1]));
+                } else { // Denklem
+                    const xVal = Math.floor(Math.random() * 10) + 1;
+                    const coeff = Math.floor(Math.random() * 4) + 2;
+                    const result = coeff * xVal;
+                    qText = `${coeff}x = ${result} ise x kaçtır?`;
+                    ans = xVal;
+                }
+            }
 
+            document.getElementById('difficulty-badge').innerText = `Zorluk Seviyesi: ${diffLabel}`;
+            document.getElementById('game-question-text').innerHTML = qText;
+            currentActiveQuestion = { ans: ans };
+
+            // Şıkları Oluşturma
+            const options = [ans];
+            while (options.length < 4) {
+                const fake = ans + (Math.floor(Math.random() * 12) - 6);
+                if (!options.includes(fake)) options.push(fake);
+            }
+            options.sort(() => Math.random() - 0.5);
+
+            const container = document.getElementById('game-options-container');
+            container.innerHTML = '';
+            options.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.className = "bg-siteBg border border-cardBorder hover:border-cyalOrange text-white font-bold py-4 px-6 rounded-xl text-lg sm:text-xl transition active:scale-95 shadow-sm";
+                btn.innerText = opt;
+                btn.onclick = () => checkAnswer(opt, btn);
+                container.appendChild(btn);
+            });
+        }
+
+        function checkAnswer(selected, btnEl) {
+            if (selected === currentActiveQuestion.ans) {
+                playSound('correct');
+                score += 10;
+                document.getElementById('game-score').innerText = score;
+                btnEl.classList.add('border-emerald-500', 'bg-emerald-500/20');
+                setTimeout(generateGradeBasedQuestion, 400);
             } else {
                 playSound('wrong');
-                buttonEl.classList.remove('bg-brand-black', 'border-brand-border');
-                buttonEl.classList.add('bg-red-600', 'border-red-400', 'text-white');
-                
-                questionCard.classList.add('shake');
-                setTimeout(() => questionCard.classList.remove('shake'), 400);
-
-                feedbackMsg.textContent = `❌ Yanlış! Doğru cevap: ${currentQuestion.answer}`;
-                feedbackMsg.className = 'h-6 font-bold text-base text-red-400';
-
-                if (!isGroupMode) combo = 1;
+                btnEl.classList.add('border-red-500', 'bg-red-500/20');
+                setTimeout(() => {
+                    btnEl.classList.remove('border-red-500', 'bg-red-500/20');
+                }, 400);
             }
-
-            // Update UI
-            if (!isGroupMode) {
-                scoreDisplay.textContent = score;
-                comboDisplay.textContent = combo;
-            } else {
-                updateGroupHud();
-            }
-
-            // Next turn or round
-            setTimeout(() => {
-                if (isGroupMode) {
-                    currentRound++;
-                    currentTeamIndex = (currentTeamIndex + 1) % teams.length;
-                    
-                    if (currentRound >= groupTotalRounds) {
-                        endGame();
-                    } else {
-                        updateGroupHud();
-                        nextQuestion();
-                    }
-                } else {
-                    nextQuestion();
-                }
-            }, 1000);
         }
 
-        function endGame() {
-            clearInterval(timerInterval);
-            screenGame.classList.add('hidden');
-            screenResult.classList.remove('hidden');
+        function exitGame() {
+            playSound('click');
+            showView('view-topics');
+        }
 
-            const singleBox = document.getElementById('single-result-box');
-            const groupBox = document.getElementById('group-result-box');
-            const resultTitle = document.getElementById('result-title');
-            const resultSub = document.getElementById('result-subtitle');
-
-            if (isGroupMode) {
-                singleBox.classList.add('hidden');
-                groupBox.classList.remove('hidden');
-
-                // Sort teams
-                const sorted = [...teams].sort((a, b) => b.score - a.score);
-                resultTitle.textContent = `🏆 ${sorted[0].name} Kazandı!`;
-                resultSub.textContent = `Tebrikler, harika bir grup yarışmasıydı.`;
-
-                const listEl = document.getElementById('group-leaderboard-list');
-                listEl.innerHTML = sorted.map((t, index) => `
-                    <div class="flex justify-between items-center p-3 rounded-xl ${index === 0 ? 'bg-brand-orange/20 border border-brand-orange text-white' : 'bg-brand-card text-gray-300'}">
-                        <span class="font-bold text-sm">${index + 1}. ${t.name}</span>
-                        <span class="font-mono font-bold text-brand-orange text-base">${t.score} Puan</span>
-                    </div>
-                `).join('');
-
+        function goHome() {
+            playSound('click');
+            if (currentUser.name) {
+                showView('view-topics');
             } else {
-                groupBox.classList.add('hidden');
-                singleBox.classList.remove('hidden');
-
-                resultTitle.textContent = "Tebrikler!";
-                resultSub.textContent = "Skorun başarıyla kaydedildi.";
-
-                document.getElementById('final-score').textContent = score;
-                document.getElementById('final-correct').textContent = correctAnswersCount;
-                document.getElementById('final-combo').textContent = `x${maxCombo}`;
-
-                // Save Highscore
-                const savedHigh = parseInt(localStorage.getItem('cyal_math_highscore') || '0');
-                if (score > savedHigh) {
-                    localStorage.setItem('cyal_math_highscore', score);
-                    globalHighscoreEl.textContent = score;
-                }
+                showView('view-login');
             }
+        }
+
+        // AYARLAR MODALI
+        function openSettings() {
+            playSound('click');
+            document.getElementById('settings-name').value = currentUser.name || '';
+            document.getElementById('sound-status-text').innerText = currentUser.soundEnabled ? 'Açık' : 'Kapalı';
+            document.getElementById('modal-settings').classList.remove('hidden');
+        }
+
+        function closeSettings() {
+            playSound('click');
+            document.getElementById('modal-settings').classList.add('hidden');
+        }
+
+        function toggleSoundSetting() {
+            currentUser.soundEnabled = !currentUser.soundEnabled;
+            document.getElementById('sound-status-text').innerText = currentUser.soundEnabled ? 'Açık' : 'Kapalı';
+            playSound('click');
+        }
+
+        function saveSettings() {
+            playSound('click');
+            const newName = document.getElementById('settings-name').value.trim();
+            if (newName) {
+                currentUser.name = newName;
+                localStorage.setItem('cyal_math_user_v2', JSON.stringify(currentUser));
+                document.getElementById('header-user-name').innerText = currentUser.name;
+                renderTopics();
+            }
+            closeSettings();
+        }
+
+        function resetUserData() {
+            playSound('click');
+            if (confirm("Kayıtlı kullanıcı bilgileriniz sıfırlansın mı?")) {
+                localStorage.removeItem('cyal_math_user_v2');
+                location.reload();
+            }
+        }
+
+        function showView(viewId) {
+            ['view-login', 'view-topics', 'view-game'].forEach(id => {
+                document.getElementById(id).classList.add('hidden');
+            });
+            document.getElementById(viewId).classList.remove('hidden');
         }
     </script>
 </body>
