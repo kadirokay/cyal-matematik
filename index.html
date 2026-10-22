@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CYAL - Okul Matematik Platformu</title>
-    <!-- Tarayıcı Sekme Logosu -->
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%2318181b'/><text x='50%' y='65%' font-size='34' font-weight='900' fill='%23f97316' text-anchor='middle' font-family='system-ui, sans-serif' letter-spacing='-1'>CYAL</text></svg>">
+    <!-- Sekme Logosu -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%23121214'/><text x='50%' y='65%' font-size='34' font-weight='900' fill='%23f97316' text-anchor='middle' font-family='system-ui, sans-serif' letter-spacing='-1'>CYAL</text></svg>">
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -13,7 +13,7 @@
             theme: {
                 extend: {
                     colors: {
-                        siteBg: '#18181b',       /* Mat siyah arka plan */
+                        siteBg: '#18181b',       /* Mat siyah */
                         cardBg: '#27272a',       /* Kutu zeminleri */
                         cardBorder: '#3f3f46',   /* Kenarlıklar */
                         cyalOrange: '#f97316',   /* Okul turuncusu */
@@ -34,7 +34,6 @@
             font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             user-select: none;
         }
-        /* Işık Efektleri */
         .orange-glow {
             box-shadow: 0 0 25px rgba(249, 115, 22, 0.25);
         }
@@ -45,19 +44,16 @@
 </head>
 <body class="min-h-screen flex flex-col justify-between relative overflow-x-hidden">
 
-    <!-- ARKA PLAN IŞIK EFEKTLERİ (LIGHTING) -->
+    <!-- ARKA PLAN IŞIK EFEKTLERİ -->
     <div class="fixed -top-32 -left-32 w-96 h-96 bg-light-orb pointer-events-none z-0"></div>
     <div class="fixed top-1/2 -right-32 w-96 h-96 bg-light-orb pointer-events-none z-0"></div>
 
     <!-- ÜST BAŞLIK / HEADER -->
     <header class="w-full bg-cardBg/90 backdrop-blur border-b border-cardBorder py-3.5 px-4 sm:px-8 flex items-center justify-between sticky top-0 z-40 shadow-lg">
-        <div class="flex items-center gap-3.5 cursor-pointer group" onclick="goLoginView()">
-            
-            <!-- CYAL PARLAK HARF LOGOSU -->
+        <div class="flex items-center gap-3.5 cursor-pointer group" onclick="startFlow()">
             <div class="w-12 h-11 bg-black border border-cyalOrange/60 group-hover:border-cyalOrange rounded-xl flex items-center justify-center font-black text-cyalOrange text-sm tracking-tighter shadow-md orange-glow transition">
                 CYAL
             </div>
-
             <div>
                 <h1 class="font-black text-base sm:text-lg leading-tight tracking-wide text-white flex items-center gap-2">
                     CYAL <span class="text-[11px] font-bold text-cyalOrange bg-cyalOrange/10 px-2 py-0.5 rounded border border-cyalOrange/30">MATEMATİK</span>
@@ -76,63 +72,104 @@
     <!-- ANA İÇERİK ALANI -->
     <main class="flex-1 max-w-4xl w-full mx-auto p-4 sm:p-6 flex flex-col justify-center z-10">
 
-        <!-- EKRAN 1: FOTOĞRAFLI VE IŞIKLI GİRİŞ EKRANI -->
-        <section id="view-login" class="bg-cardBg border border-cardBorder rounded-3xl overflow-hidden max-w-md mx-auto w-full shadow-2xl orange-glow">
-            
-            <!-- KAPAK FOTOĞRAFI -->
-            <div class="h-36 w-full relative overflow-hidden border-b border-cardBorder">
-                <img src="https://images.unsplash.com/photo-1509228468518-180dd4864904?auto=format&fit=crop&w=800&q=80" alt="Matematik Eğitimi" class="w-full h-full object-cover opacity-50">
+        <!-- 1. ADIM: İSİM GİRİŞİ -->
+        <section id="step-name" class="bg-cardBg border border-cardBorder rounded-3xl overflow-hidden max-w-md mx-auto w-full shadow-2xl orange-glow">
+            <div class="h-32 w-full relative overflow-hidden border-b border-cardBorder">
+                <img src="https://images.unsplash.com/photo-1509228468518-180dd4864904?auto=format&fit=crop&w=800&q=80" alt="Matematik" class="w-full h-full object-cover opacity-50">
                 <div class="absolute inset-0 bg-gradient-to-t from-cardBg via-cardBg/40 to-transparent"></div>
-                <div class="absolute bottom-3 left-4 right-4 flex items-center justify-between">
-                    <span class="text-xs font-extrabold uppercase tracking-widest text-cyalOrange bg-black/70 px-3 py-1 rounded-lg border border-cyalOrange/30 backdrop-blur">
-                        CYAL OKUL PLATFORMU
+                <div class="absolute bottom-3 left-4">
+                    <span class="text-[10px] font-extrabold uppercase tracking-widest text-cyalOrange bg-black/70 px-3 py-1 rounded-lg border border-cyalOrange/30 backdrop-blur">
+                        CYAL MATEMATİK PLATFORMU
                     </span>
                 </div>
             </div>
 
             <div class="p-6 sm:p-8">
                 <div class="text-center mb-6">
-                    <h2 class="text-2xl font-black text-white">Matematik Arenası</h2>
-                    <p class="text-xs text-textMuted mt-1">Sınıfını ve ismini seçerek yarışmaya başla.</p>
+                    <h2 class="text-2xl font-black text-white">Hoş Geldiniz</h2>
+                    <p class="text-xs text-textMuted mt-1">Başlamak için adınızı veya takım adınızı girin.</p>
                 </div>
 
-                <form onsubmit="saveUserAndContinue(event)" class="space-y-4">
+                <form onsubmit="handleNameSubmit(event)" class="space-y-4">
                     <div>
-                        <label class="block text-xs font-bold text-textMuted uppercase tracking-wider mb-1">Ad Soyad veya Sınıf/Takım Adı</label>
-                        <input type="text" id="input-name" required placeholder="Örn: Ahmet Yılmaz veya 6-B Takımı" class="w-full bg-siteBg border border-cardBorder rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-cyalOrange transition shadow-inner">
-                    </div>
-
-                    <div>
-                        <label class="block text-xs font-bold text-textMuted uppercase tracking-wider mb-1">Okul Kademeniz</label>
-                        <select id="input-level-type" onchange="updateGradeDropdown()" class="w-full bg-siteBg border border-cardBorder rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-cyalOrange transition">
-                            <option value="primary">İlkokul (1, 2, 3, 4. Sınıflar)</option>
-                            <option value="middle" selected>Ortaokul (5, 6, 7, 8. Sınıflar)</option>
-                        </select>
-                    </div>
-
-                    <div>
-                        <label class="block text-xs font-bold text-textMuted uppercase tracking-wider mb-1">Sınıfınız</label>
-                        <select id="input-grade" class="w-full bg-siteBg border border-cardBorder rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-cyalOrange transition">
-                            <!-- JS ile Doldurulacak -->
-                        </select>
+                        <label class="block text-xs font-bold text-textMuted uppercase tracking-wider mb-1">Ad Soyad veya Takım Adı</label>
+                        <input type="text" id="input-name" required placeholder="Örn: Ahmet Yılmaz veya 7-A Takımı" class="w-full bg-siteBg border border-cardBorder rounded-xl px-4 py-3.5 text-sm text-white focus:outline-none focus:border-cyalOrange transition shadow-inner">
                     </div>
 
                     <button type="submit" class="w-full bg-cyalOrange hover:bg-cyalOrangeHover text-black font-extrabold py-3.5 px-4 rounded-xl transition flex items-center justify-center gap-2 mt-4 shadow-lg shadow-orange-500/20 text-sm">
-                        <span>Giriş Yap ve Konuları Gör</span>
+                        <span>Devam Et</span>
                         <i class="fa-solid fa-arrow-right text-xs"></i>
                     </button>
                 </form>
             </div>
         </section>
 
-        <!-- EKRAN 2: MEB KONU BAŞLIKLARI SEÇİMİ -->
-        <section id="view-topics" class="hidden space-y-6">
+        <!-- 2. ADIM: KADEME SEÇİMİ (İLKOKUL / ORTAOKUL) -->
+        <section id="step-level" class="hidden max-w-md mx-auto w-full bg-cardBg border border-cardBorder rounded-3xl p-6 sm:p-8 shadow-2xl orange-glow space-y-5">
+            <div class="text-center">
+                <span class="text-xs text-cyalOrange font-extrabold uppercase tracking-widest">2. Adım</span>
+                <h2 class="text-xl font-bold text-white mt-1">Okul Kademeni Seç</h2>
+                <p class="text-xs text-textMuted">Hangi okula gidiyorsun?</p>
+            </div>
+
+            <div class="grid grid-cols-1 gap-3.5">
+                <button onclick="selectLevel('primary')" class="bg-siteBg border border-cardBorder hover:border-cyalOrange p-5 rounded-2xl transition text-left flex items-center justify-between group">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-cyalOrange/10 border border-cyalOrange/30 text-cyalOrange font-bold flex items-center justify-center text-xl group-hover:scale-105 transition">
+                            <i class="fa-solid fa-shapes"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-white text-base group-hover:text-cyalOrange transition">İlkokul</h3>
+                            <p class="text-xs text-textMuted">1, 2, 3 ve 4. Sınıflar</p>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-textMuted group-hover:text-cyalOrange transition"></i>
+                </button>
+
+                <button onclick="selectLevel('middle')" class="bg-siteBg border border-cardBorder hover:border-cyalOrange p-5 rounded-2xl transition text-left flex items-center justify-between group">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-cyalOrange/10 border border-cyalOrange/30 text-cyalOrange font-bold flex items-center justify-center text-xl group-hover:scale-105 transition">
+                            <i class="fa-solid fa-square-root-variable"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-white text-base group-hover:text-cyalOrange transition">Ortaokul</h3>
+                            <p class="text-xs text-textMuted">5, 6, 7 ve 8. Sınıflar</p>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-textMuted group-hover:text-cyalOrange transition"></i>
+                </button>
+            </div>
+
+            <button onclick="switchStep('step-name')" class="text-xs text-textMuted hover:text-white transition w-full text-center pt-2">
+                <i class="fa-solid fa-arrow-left mr-1"></i> İsmi Değiştir
+            </button>
+        </section>
+
+        <!-- 3. ADIM: SINIF SEÇİMİ -->
+        <section id="step-grade" class="hidden max-w-md mx-auto w-full bg-cardBg border border-cardBorder rounded-3xl p-6 sm:p-8 shadow-2xl orange-glow space-y-5">
+            <div class="text-center">
+                <span class="text-xs text-cyalOrange font-extrabold uppercase tracking-widest">3. Adım</span>
+                <h2 class="text-xl font-bold text-white mt-1">Sınıfını Seç</h2>
+                <p class="text-xs text-textMuted">Kaçıncı sınıfa gidiyorsun?</p>
+            </div>
+
+            <div id="grade-buttons-container" class="grid grid-cols-2 gap-3">
+                <!-- JS ile Dinamik Gelecek -->
+            </div>
+
+            <button onclick="switchStep('step-level')" class="text-xs text-textMuted hover:text-white transition w-full text-center pt-2">
+                <i class="fa-solid fa-arrow-left mr-1"></i> Kademeyi Değiştir
+            </button>
+        </section>
+
+        <!-- 4. ADIM: MEB KONU BAŞLIKLARI SEÇİMİ -->
+        <section id="step-topics" class="hidden space-y-6">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-cardBg border border-cardBorder p-5 rounded-2xl shadow-md">
                 <div>
                     <span id="user-badge" class="text-[11px] uppercase tracking-wider font-extrabold text-cyalOrange bg-cyalOrange/10 border border-cyalOrange/20 px-3 py-1 rounded-lg">8. Sınıf</span>
                     <h2 id="welcome-title" class="text-lg font-bold text-white mt-2">Çalışmak İstediğin Konuyu Seç</h2>
                 </div>
-                <button onclick="goLoginView()" class="text-xs text-textMuted hover:text-white bg-siteBg border border-cardBorder px-3.5 py-2 rounded-xl transition self-start sm:self-auto flex items-center gap-1.5">
+                <button onclick="switchStep('step-grade')" class="text-xs text-textMuted hover:text-white bg-siteBg border border-cardBorder px-3.5 py-2 rounded-xl transition self-start sm:self-auto flex items-center gap-1.5">
                     <i class="fa-solid fa-rotate text-cyalOrange"></i>
                     <span>Sınıf Değiştir</span>
                 </button>
@@ -144,8 +181,8 @@
             </div>
         </section>
 
-        <!-- EKRAN 3: SORU ÇÖZÜM ALANI -->
-        <section id="view-game" class="hidden max-w-2xl mx-auto w-full bg-cardBg border border-cardBorder rounded-2xl p-5 sm:p-8 shadow-xl">
+        <!-- 5. ADIM: OYUN / SORU EKRANI -->
+        <section id="step-game" class="hidden max-w-2xl mx-auto w-full bg-cardBg border border-cardBorder rounded-2xl p-5 sm:p-8 shadow-xl">
             <!-- Soru Üst Bilgisi -->
             <div class="flex items-center justify-between border-b border-cardBorder pb-4 mb-6">
                 <div>
@@ -157,7 +194,7 @@
                     <span id="game-score" class="font-black text-white text-xl font-mono">0</span>
                 </div>
                 <div>
-                    <button onclick="goTopicsView()" class="text-xs text-textMuted hover:text-white bg-siteBg border border-cardBorder px-3 py-1.5 rounded-lg transition">
+                    <button onclick="switchStep('step-topics')" class="text-xs text-textMuted hover:text-white bg-siteBg border border-cardBorder px-3 py-1.5 rounded-lg transition">
                         Konulara Dön
                     </button>
                 </div>
@@ -234,7 +271,7 @@
             "8": ["Çarpanlar ve Katlar (EBOB ve EKOK)", "Üslü İfadeler ve Bilimsel Gösterim", "Kareköklü İfadeler ve İşlemler", "Veri Analizi (Çizgi, Sütun, Daire Grafiği)", "Basit Olayların Olma Olasılığı", "Cebirsel İfadeler ve Özdeşlikler", "Doğrusal Denklemler ve Eğim"]
         };
 
-        let currentUser = { name: '', levelType: 'middle', grade: '8', soundEnabled: true };
+        let currentUser = { name: '', levelType: '', grade: '', soundEnabled: true };
         let currentActiveQuestion = null;
         let score = 0;
 
@@ -273,67 +310,82 @@
             } catch(e) {}
         }
 
-        // TARAYICI GERİ/İLERİ BUTONLARI DESTEĞİ
+        // TARAYICI GERİ/İLERİ BUTONLARI
         window.addEventListener('popstate', (e) => {
-            if (e.state && e.state.view) {
-                switchView(e.state.view, false);
+            if (e.state && e.state.step) {
+                switchStep(e.state.step, false);
             } else {
-                switchView('view-login', false);
+                switchStep('step-name', false);
             }
         });
 
         window.addEventListener('DOMContentLoaded', () => {
             loadUserData();
-            updateGradeDropdown();
-
-            if (currentUser.name) {
-                switchView('view-topics', true);
+            if (currentUser.name && currentUser.grade) {
+                switchStep('step-topics', true);
                 renderTopics();
             } else {
-                switchView('view-login', true);
+                switchStep('step-name', true);
             }
         });
 
         function loadUserData() {
-            const saved = localStorage.getItem('cyal_math_user_v2');
+            const saved = localStorage.getItem('cyal_math_user_v3');
             if (saved) {
                 currentUser = JSON.parse(saved);
                 document.getElementById('input-name').value = currentUser.name || '';
-                document.getElementById('input-level-type').value = currentUser.levelType || 'middle';
-                document.getElementById('header-user-name').innerText = currentUser.name;
+                document.getElementById('header-user-name').innerText = currentUser.name || 'Giriş Yapılmadı';
             }
         }
 
-        function saveUserAndContinue(e) {
-            if (e) e.preventDefault();
-            playSound('click');
-
-            currentUser.name = document.getElementById('input-name').value.trim();
-            currentUser.levelType = document.getElementById('input-level-type').value;
-            currentUser.grade = document.getElementById('input-grade').value;
-
-            localStorage.setItem('cyal_math_user_v2', JSON.stringify(currentUser));
+        function saveUserData() {
+            localStorage.setItem('cyal_math_user_v3', JSON.stringify(currentUser));
             document.getElementById('header-user-name').innerText = currentUser.name;
-
-            renderTopics();
-            switchView('view-topics', true);
         }
 
-        function updateGradeDropdown() {
-            const level = document.getElementById('input-level-type').value;
-            const gradeSelect = document.getElementById('input-grade');
-            gradeSelect.innerHTML = '';
+        // 1. ADIM: İSİM GÖNDERME
+        function handleNameSubmit(e) {
+            e.preventDefault();
+            playSound('click');
+            currentUser.name = document.getElementById('input-name').value.trim();
+            saveUserData();
+            switchStep('step-level', true);
+        }
 
+        // 2. ADIM: KADEME SEÇME
+        function selectLevel(level) {
+            playSound('click');
+            currentUser.levelType = level;
+            
+            // Sınıf Butonlarını Oluştur
+            const container = document.getElementById('grade-buttons-container');
+            container.innerHTML = '';
             const grades = level === 'primary' ? ['1', '2', '3', '4'] : ['5', '6', '7', '8'];
+
             grades.forEach(g => {
-                const opt = document.createElement('option');
-                opt.value = g;
-                opt.innerText = `${g}. Sınıf`;
-                if (currentUser.grade === g) opt.selected = true;
-                gradeSelect.appendChild(opt);
+                const btn = document.createElement('button');
+                btn.className = "bg-siteBg border border-cardBorder hover:border-cyalOrange py-4 px-3 rounded-2xl transition flex flex-col items-center justify-center font-bold group";
+                btn.onclick = () => selectGrade(g);
+                btn.innerHTML = `
+                    <span class="text-2xl text-white group-hover:text-cyalOrange transition">${g}</span>
+                    <span class="text-[11px] text-textMuted group-hover:text-white transition">. Sınıf</span>
+                `;
+                container.appendChild(btn);
             });
+
+            switchStep('step-grade', true);
         }
 
+        // 3. ADIM: SINIF SEÇME
+        function selectGrade(grade) {
+            playSound('click');
+            currentUser.grade = grade;
+            saveUserData();
+            renderTopics();
+            switchStep('step-topics', true);
+        }
+
+        // 4. ADIM: KONULARI LİSTELEME
         function renderTopics() {
             const grid = document.getElementById('topics-grid');
             grid.innerHTML = '';
@@ -360,12 +412,13 @@
             });
         }
 
+        // 5. ADIM: OYUN BAŞLATMA
         function startTopicGame(topicName) {
             playSound('click');
             document.getElementById('game-topic-name').innerText = topicName;
             score = 0;
             document.getElementById('game-score').innerText = score;
-            switchView('view-game', true);
+            switchStep('step-game', true);
             generateGradeBasedQuestion();
         }
 
@@ -435,16 +488,6 @@
             }
         }
 
-        function goLoginView() {
-            playSound('click');
-            switchView('view-login', true);
-        }
-
-        function goTopicsView() {
-            playSound('click');
-            switchView('view-topics', true);
-        }
-
         function openSettings() {
             playSound('click');
             document.getElementById('settings-name').value = currentUser.name || '';
@@ -468,9 +511,8 @@
             const newName = document.getElementById('settings-name').value.trim();
             if (newName) {
                 currentUser.name = newName;
-                localStorage.setItem('cyal_math_user_v2', JSON.stringify(currentUser));
-                document.getElementById('header-user-name').innerText = currentUser.name;
-                renderTopics();
+                saveUserData();
+                if (currentUser.grade) renderTopics();
             }
             closeSettings();
         }
@@ -478,19 +520,24 @@
         function resetUserData() {
             playSound('click');
             if (confirm("Kayıtlı kullanıcı bilgileriniz sıfırlansın mı?")) {
-                localStorage.removeItem('cyal_math_user_v2');
+                localStorage.removeItem('cyal_math_user_v3');
                 location.reload();
             }
         }
 
-        function switchView(viewId, pushState = true) {
-            ['view-login', 'view-topics', 'view-game'].forEach(id => {
+        function startFlow() {
+            playSound('click');
+            switchStep('step-name', true);
+        }
+
+        function switchStep(stepId, pushState = true) {
+            ['step-name', 'step-level', 'step-grade', 'step-topics', 'step-game'].forEach(id => {
                 document.getElementById(id).classList.add('hidden');
             });
-            document.getElementById(viewId).classList.remove('hidden');
+            document.getElementById(stepId).classList.remove('hidden');
 
             if (pushState) {
-                history.pushState({ view: viewId }, '', '#' + viewId.replace('view-', ''));
+                history.pushState({ step: stepId }, '', '#' + stepId.replace('step-', ''));
             }
         }
     </script>
